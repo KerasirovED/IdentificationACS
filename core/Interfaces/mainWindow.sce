@@ -1,233 +1,252 @@
 
+global Programm;
+
 // Основное окно программы
-main_figure = figure(...
+Programm.MainWindow.Window = figure(..
     "figure_id", 228, ..
     "figure_name", "Программный комплекс идентификации САУ (version: " + Programm.Version + ")", ..
-    "dockable"        , "off",...
-    "infobar_visible" , "off",...
-    "toolbar"         , "none",...
-    "default_axes"    , "off",...
-    "layout"          , "gridbag",...
-    "visible"         , "off", ...
-   "figure_position", [100 50], ...
-    "menubar" , "none",...
-    "axes_size", [1000, 600])
+    "dockable"        , "off",..
+    "infobar_visible" , "off",..
+    "toolbar"         , "none",..
+    "default_axes"    , "off",..
+    "layout"          , "gridbag",..
+    "visible"         , "off", ..
+   "figure_position", [100 50], ..
+    "menubar" , "none",..
+    "axes_size", [1000, 600]);
     
 // Панель инструментов
-m = uimenu(main_figure, "label", "Файл")
-uimenu(m, "label", "Закрыть", "callback", "CloseProgramm", "icon", "close-tab")
-m = uimenu(main_figure, "label", "График")
-uimenu(m, "label", "Сохранить как изображение", "callback", "SavePlotIntoImage", "icon", "media-floppy")
-m = uimenu(main_figure, "label", "Открыть диаграмму")
-uimenu(m, "label", "Система идентификации с фильтром первого порядка", "callback", "OpenFirstOrderFilterDiagram", "icon", "utilities-system-monitor")
-uimenu(m, "label", "Система идентификации с фильтром второго порядка", "callback", "OpenSecindOrderFilterDiagram", "icon", "utilities-system-monitor")
-m = uimenu(main_figure, "label", "Справка")
-uimenu(m, "label", "Справка", "callback", "exec(programmPath + ""help\Help.sce"")", "icon", "help-browser")
-uimenu(m, "label", "О программе", "callback", "AboutUs", "icon", "dialog-information")
+m = uimenu(Programm.MainWindow.Window, "label", "Файл");
+uimenu(m, "label", "Закрыть", "callback", "CloseProgramm", "icon", "close-tab");
+m = uimenu(Programm.MainWindow.Window, "label", "График");
+uimenu(m, "label", "Сохранить как изображение", "callback", "SavePlotIntoImage", "icon", "media-floppy");
+m = uimenu(Programm.MainWindow.Window, "label", "Открыть диаграмму");
+uimenu(m, "label", "Система идентификации с фильтром первого порядка", "callback", "OpenFirstOrderFilterDiagram", "icon", "utilities-system-monitor");
+uimenu(m, "label", "Система идентификации с фильтром второго порядка", "callback", "OpenSecindOrderFilterDiagram", "icon", "utilities-system-monitor");
+m = uimenu(Programm.MainWindow.Window, "label", "Справка");
+uimenu(m, "label", "Справка", "callback", "exec(Programm.Path + ""help\Help.sce"")", "icon", "help-browser");
+uimenu(m, "label", "О программе", "callback", "AboutUs", "icon", "dialog-information");
 
-// Разделение рабочей области   
-right_frame = uicontrol(main_figure, ...
-    "layout", "gridbag", ...
-    "style", "frame", ...
-    "margin", [5 5 5 5], ...
-    "constraints", createConstraints("gridbag", [2 1 1 1], [1 1], "both"))
+// -------------------------------------------------------------------------
+// Left Frame 
+// -------------------------------------------------------------------------
 
-left_frame = uicontrol(main_figure, ...
-    "layout", "gridbag", ...
-    "style", "frame", ...
-    "margin", [5 5 5 0], ...
-    "constraints", createConstraints("gridbag", [1 1 1 1], [-1 1], "vertical", "center", [-1 -1], [300 1]))
-
-//-------- Входной сигнал --------//
-
-signalFrame = uicontrol(left_frame, ...
-    "style", "frame", ...
-    "layout", "gridbag", ...
-    "Margins", [5 5 0 5], ...
-    "border", createBorder("line", "gray", 1), ...
-    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper", [0 0], [0 50]))
-
-uicontrol(signalFrame, ...
-    "style", "text", ...
-    "string", "Входной сигнал:", ...
-    "margins", [5 5 5 5], ...
-    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper"))
-    
-signalParametresFrame = uicontrol(signalFrame, ..
+Programm.MainWindow.Frames.Left = [];
+Programm.MainWindow.Frames.Left = uicontrol(Programm.MainWindow.Window, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]))
+    "layout", "gridbag", ..
+    "margin", [5 5 5 0], ..
+    "constraints", createConstraints("gridbag", [1 1 1 1], [-1 1], "vertical", "center", [-1 -1], [300 1]));
+
+// -------- Входной сигнал -------- //
+
+Programm.MainWindow.Frames.Signal = uicontrol(Programm.MainWindow.Frames.Left, ..
+    "style", "frame", ..
+    "layout", "gridbag", ..
+    "Margins", [5 5 0 5], ..
+    "border", createBorder("line", "gray", 1), ..
+    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper", [0 0], [0 50]));
+
+uicontrol(Programm.MainWindow.Frames.Signal, ..
+    "style", "text", ..
+    "string", "Входной сигнал:", ..
+    "margins", [5 5 5 5], ..
+    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper"));
     
-signalType = uicontrol(signalParametresFrame, ...
-    "style", "popupmenu", ...
-    "string", Programm.Modules.InputSignals.List, ...
-    "tag", "signalType", ...
-    "callback", "AddModule(signalType, Programm.Modules.InputSignals.Path, RefreshInputSignals)", ..
-    "position", [5 0 223 20])
+Programm.MainWindow.Frames.SignalParametres = uicontrol(Programm.MainWindow.Frames.Signal, ..
+    "style", "frame", ..
+    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]));
+    
+Programm.MainWindow.Frames.SignalType = uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
+    "style", "popupmenu", ..
+    "string", Programm.Modules.InputSignals.List, ..
+    "tag", "Programm.MainWindow.Frames.SignalType", ..
+    "callback", "AddModule(Programm.MainWindow.Frames.SignalType, Programm.Modules.InputSignals.Path, RefreshInputSignals)", ..
+    "position", [5 0 223 20]);
         
-uicontrol(signalParametresFrame, ...
-    "style", "pushbutton", ...
-    "tag", "signalParametres", ...
-    "callback", "OpenModule(Programm.Modules.InputSignals.Path, signalType.String(signalType.Value))", ..
-    "icon", programmPath + "images\gearWheel2.png", ..
-    "position", [234 -1 22 22])
+uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
+    "style", "pushbutton", ..
+    "tag", "signalParametres", ..
+    "callback", "OpenModule(Programm.Modules.InputSignals.Path, Programm.MainWindow.Frames.SignalType.String(Programm.MainWindow.Frames.SignalType.Value))", ..
+    "icon", Programm.Path + "images\gearWheel2.png", ..
+    "position", [234 -1 22 22]);
         
-uicontrol(signalParametresFrame, ...
-    "style", "pushbutton", ...
-    "tag", "signalParametres", ...
+uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
+    "style", "pushbutton", ..
+    "tag", "signalParametres", ..
     "callback", "RefreshInputSignals", ..
-    "icon", programmPath + "images\refresh.png", ..
-    "position", [260 -1 22 22])
+    "icon", Programm.Path + "images\refresh.png", ..
+    "position", [260 -1 22 22]);
     
-uicontrol(signalFrame, ..
+uicontrol(Programm.MainWindow.Frames.Signal, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both", "center"))
+    "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both", "center"));
 
 //-------- Модель объекта --------//
 
-link_type_frame = uicontrol(left_frame, ...
-    "style", "frame", ...
-    "layout", "gridbag", ...
-    "Margins", [5 5 0 5], ...
-    "border", createBorder("line", "gray", 1), ...
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "horizontal", "upper", [0 0], [0 50]))
+Programm.MainWindow.Frames.ObjectTransferFunction = uicontrol(Programm.MainWindow.Frames.Left, ..
+    "style", "frame", ..
+    "layout", "gridbag", ..
+    "Margins", [5 5 0 5], ..
+    "border", createBorder("line", "gray", 1), ..
+    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "horizontal", "upper", [0 0], [0 50]));
 
-uicontrol(link_type_frame, ...
-    "style", "text", ...
-    "string", "Модель объекта:", ...
-    "margins", [5 5 5 5], ...
-    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper"))
+uicontrol(Programm.MainWindow.Frames.ObjectTransferFunction, ..
+    "style", "text", ..
+    "string", "Модель объекта:", ..
+    "margins", [5 5 5 5], ..
+    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper"));
     
-link_type_parametres_frame = uicontrol(link_type_frame, ..
+Programm.MainWindow.Frames.ObjectTransferFunctionParametres = uicontrol(Programm.MainWindow.Frames.ObjectTransferFunction, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]))
+    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]));
     
-link_type = uicontrol(link_type_parametres_frame, ...
-    "style", "popupmenu", ...
-    "string", Programm.Modules.Objects.List, ...
-    "tag", "link_type_tag", ...
-    "callback", "AddModule(link_type, Programm.Modules.Objects.Path, RefreshObjects)", ..
-    "position", [5 0 223 20])
+Programm.MainWindow.Popmenus.TransferType = [];
+Programm.MainWindow.Popmenus.TransferType = uicontrol(Programm.MainWindow.Frames.ObjectTransferFunctionParametres, ..
+    "style", "popupmenu", ..
+    "string", Programm.Modules.Objects.List, ..
+    "tag", "Programm.MainWindow.Popmenus.TransferType_tag", ..
+    "callback", "AddModule(Programm.MainWindow.Popmenus.TransferType, Programm.Modules.Objects.Path, RefreshObjects)", ..
+    "position", [5 0 223 20]);
         
-uicontrol(link_type_parametres_frame, ...
-    "style", "pushbutton", ...
-    "tag", "signalParametres", ...
-    "callback", "OpenModule(Programm.Modules.Objects.Path, link_type.String(link_type.Value))", ..
-    "icon", programmPath + "images\gearWheel2.png", ..
-    "position", [234 -1 22 22])
+uicontrol(Programm.MainWindow.Frames.ObjectTransferFunctionParametres, ..
+    "style", "pushbutton", ..
+    "tag", "signalParametres", ..
+    "callback", "OpenModule(Programm.Modules.Objects.Path, Programm.MainWindow.Popmenus.TransferType.String(Programm.MainWindow.Popmenus.TransferType.Value))", ..
+    "icon", Programm.Path + "images\gearWheel2.png", ..
+    "position", [234 -1 22 22]);
         
-uicontrol(link_type_parametres_frame, ...
-    "style", "pushbutton", ...
-    "tag", "signalParametres", ...
+uicontrol(Programm.MainWindow.Frames.ObjectTransferFunctionParametres, ..
+    "style", "pushbutton", ..
+    "tag", "signalParametres", ..
     "callback", "RefreshObjects", ..
-    "icon", programmPath + "images\refresh.png", ..
-    "position", [260 -1 22 22])
+    "icon", Programm.Path + "images\refresh.png", ..
+    "position", [260 -1 22 22]);
     
-uicontrol(link_type_frame, ..
+uicontrol(Programm.MainWindow.Frames.ObjectTransferFunction, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both", "center"))
+    "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both", "center"));
     
 //-------- Порядок фильтра --------//
 
-filterOrderFrame = uicontrol(left_frame, ...
-    "style", "frame", ...
-    "layout", "gridbag", ...
-    "Margins", [5 5 0 5], ...
-    "border", createBorder("line", "gray", 1), ...
-    "constraints", createConstraints("gridbag", [1 4 1 1], [1 0], "horizontal", "upper", [0 0], [0 50]))
-
-uicontrol(filterOrderFrame, ...
-    "style", "text", ...
-    "string", "Система идентификации:", ...
-    "margins", [5 5 5 5], ...
-    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper"))
-    
-filterOrderParametresFrame = uicontrol(filterOrderFrame, ..
+Programm.MainWindow.Frames.SelectModule = uicontrol(Programm.MainWindow.Frames.Left, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]))
-    
-uiFilterOrder = uicontrol(filterOrderParametresFrame, ...
-    "style", "popupmenu", ...
-    "string", Programm.Modules.Indetification.List, ...
-    "tag", "filterOrder", ...
-    "callback", "AddModule(uiFilterOrder, Programm.Modules.Indetification.Path, RefreshIndetification)", ..
-    "position", [5 0 223 20])
-        
-uicontrol(filterOrderParametresFrame, ...
-    "style", "pushbutton", ...
-    "tag", "signalParametres", ...
-    "callback", "OpenModule(Programm.Modules.Indetification.Path, uiFilterOrder.String(uiFilterOrder.Value))", ..
-    "icon", programmPath + "images\gearWheel2.png", ..
-    "position", [234 -1 22 22])
-        
-uicontrol(filterOrderParametresFrame, ...
-    "style", "pushbutton", ...
-    "tag", "signalParametres", ...
-    "callback", "RefreshIndetification", ..
-    "icon", programmPath + "images\refresh.png", ..
-    "position", [260 -1 22 22])
-    
-uicontrol(filterOrderFrame, ..
+    "layout", "gridbag", ..
+    "Margins", [5 5 0 5], ..
+    "border", createBorder("line", "gray", 1), ..
+    "constraints", createConstraints("gridbag", [1 4 1 1], [1 1], "both"));
+
+Programm.MainWindow.Frames.SelectedModule = uicontrol(Programm.MainWindow.Frames.SelectModule, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both", "center"))
+    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "both", "center", [0 0], [0 25]));
 
-//-------- Время моделирвоания --------//
+uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
+    "style", "text", ..
+    "string", "Выбран модуль:", ..
+    "position", [5 0 90 20]);
 
-simulationTime = uicontrol(left_frame, ...
-    "style", "frame", ...
-    "margins", [5 5 0 5], ...
-    "border", createBorder("line", "gray", 1), ...
-    "constraints", createConstraints("gridbag", [1 6 1 1], [1 0], "horizontal", "upper", [0 0], [0 30]))
+Programm.MainWindow.Texts.ModuleName = [];
+Programm.MainWindow.Texts.ModuleName = uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
+    "style", "text", ..
+    "string", "<не выбрано>", ..
+    "position", [95 0 195 20]);
+
+Programm.MainWindow.Frames.SelectModuleNavigationButtons = uicontrol(Programm.MainWindow.Frames.SelectModule, ..
+    "style", "frame", ..
+    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 40]));
     
-uicontrol(simulationTime, ..
+Programm.MainWindow.Buttons.Previous = [];
+Programm.MainWindow.Buttons.Previous = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+    "icon", "go-previous", ..
+    "callback", "MainWindowNavigation_Backward", ..
+    "enable", "off", ..
+    "position", [5 5 30 30]);
+
+Programm.MainWindow.Buttons.Next = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+    "icon", "go-next", ..
+    "callback", "MainWindowNavigation_Forward", ..
+    "enable", "off", ..
+    "position", [40 5 30 30]);
+    
+Programm.MainWindow.Buttons.Home = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+    "icon", "user-home", ..
+    "callback", "MainWindowNavigation_Home", ..
+    "enable", "off", ..
+    "position", [75 5 30 30]);
+
+Programm.MainWindow.Listboxes.SelectModuleListbox = [];
+Programm.MainWindow.Listboxes.SelectModuleListbox = uicontrol(Programm.MainWindow.Frames.SelectModule, ..
+    "style", "listbox", ..
+    "Margins", [0 5 5 5], ..
+    "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both"));
+
+//-------- Время моделирования --------//
+
+Programm.MainWindow.Frames.SimulationTime = uicontrol(Programm.MainWindow.Frames.Left, ..
+    "style", "frame", ..
+    "margins", [5 5 0 5], ..
+    "border", createBorder("line", "gray", 1), ..
+    "constraints", createConstraints("gridbag", [1 6 1 1], [1 0], "horizontal", "upper", [0 0], [0 30]));
+    
+uicontrol(Programm.MainWindow.Frames.SimulationTime, ..
     "style", "text", ..
     "string", "Время моделирования:", ..
-    "position", [5 5 125 20])
+    "position", [5 5 125 20]);
     
-uicontrol(simulationTime, ..
+uicontrol(Programm.MainWindow.Frames.SimulationTime, ..
     "style", "edit", ..
     "tag", "Время моделирования", ..
     "string", "250", ..
-    "position", [130 5 155 20])
+    "position", [130 5 155 20]);
     
 //Растягивающийся frame
-button_frame = uicontrol(left_frame, ...
-    "style", "frame", ...
-    "constraints", createConstraints("gridbag", [1 7 1 1], [1 1], "both"))
+uicontrol(Programm.MainWindow.Frames.Left, ..
+    "style", "frame", ..
+    "constraints", createConstraints("gridbag", [1 7 1 1], [1 1], "both"));
     
 //-------- Пуск --------//
 
-button_frame = uicontrol(left_frame, ...
-    "style", "frame", ...
-    "layout", "gridbag", ...
-    "Margins", [5 5 5 5], ...
-    "constraints", createConstraints("gridbag", [1 8 1 1], [1 0], "horizontal", "lower", [0 0], [0 25]))
+Programm.MainWindow.Frames.StartSimulation = uicontrol(Programm.MainWindow.Frames.Left, ..
+    "style", "frame", ..
+    "layout", "gridbag", ..
+    "Margins", [5 5 5 5], ..
+    "constraints", createConstraints("gridbag", [1 8 1 1], [1 0], "horizontal", "lower", [0 0], [0 25]));
 
-start = uicontrol(button_frame, ...
-    "style", "pushbutton", ...
-    "string", "Пуск", ...
-    "callback", "Set_Xcos_parametres(plot_frame)", ...
-    "constraints", createConstraints("gridbag", [1 1 1 1], [1 1], "both"))
+Programm.MainWindow.Buttons.Start = uicontrol(Programm.MainWindow.Frames.StartSimulation, ..
+    "style", "pushbutton", ..
+    "string", "Пуск", ..
+    "callback", "Set_Xcos_parametres(plot_frame)", ..
+    "constraints", createConstraints("gridbag", [1 1 1 1], [1 1], "both"));
 
-////////////////////////////////////////////////
-///////////////// Right Frame //////////////////
-////////////////////////////////////////////////
+// -------------------------------------------------------------------------
+// Right Frame 
+// -------------------------------------------------------------------------
+
+// Разделение рабочей области   
+Programm.MainWindow.Frames.RightFrame = uicontrol(Programm.MainWindow.Window, ..
+"layout", "gridbag", ..
+"style", "frame", ..
+"margin", [5 5 5 5], ..
+"constraints", createConstraints("gridbag", [2 1 1 1], [1 1], "both"));
     
-noDataFrame = uicontrol(right_frame, ...
-    "style", "frame", ...
-    "layout", "gridbag", ...
-    "margins", [5 5 5 5], ...
+Programm.MainWindow.Frames.NoDataFrame = uicontrol(Programm.MainWindow.Frames.RightFrame, ..
+    "style", "frame", ..
+    "layout", "gridbag", ..
+    "margins", [5 5 5 5], ..
     "tag", "noDataFrame", ..
-    "constraints", createConstraints("gridbag", [1 1 1 1], [1 1], "both"))
+    "constraints", createConstraints("gridbag", [1 1 1 1], [1 1], "both"));
 
-plot_frame = uicontrol(right_frame, ...
-    "style", "frame", ...
-    "margins", [5 5 5 5], ...
+Programm.MainWindow.Frames.PlotFrame = uicontrol(Programm.MainWindow.Frames.RightFrame, ..
+    "style", "frame", ..
+    "margins", [5 5 5 5], ..
     "visible", "off", ..
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 1], "both"))
+    "constraints", createConstraints("gridbag", [1 2 1 1], [1 1], "both"));
 
-uicontrol(noDataFrame, ..
+uicontrol(Programm.MainWindow.Frames.NoDataFrame, ..
     "style", "text", ..
     "string", "< Нет данных >", ..
-    "ForeGroundColor", [.5 .5 .5])
+    "ForeGroundColor", [.5 .5 .5]);
 
-main_figure.visible = "on"
+// SetModulesList(Programm.MainWindow.Navigation.List(Programm.MainWindow.Navigation.CurrentIndex));
+
+Programm.MainWindow.Window.visible = "on";

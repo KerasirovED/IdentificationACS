@@ -1,5 +1,4 @@
-clc
-global Variables
+global Programm
 
 main_figure = figure( ...
     "dockable"        , "off",...
@@ -20,30 +19,30 @@ left_frame = uicontrol(main_figure, ...
     "position", [5 5 275 470])
 
 // Разделение рабочей области   
-Variables.Help.help_frame = []    
-Variables.Help.help_frame = uicontrol(main_figure, ...
+Programm.Help.help_frame = []    
+Programm.Help.help_frame = uicontrol(main_figure, ...
     "layout", "gridbag", ...
     "style", "frame", ...
     "margin", [5 5 5 5], ...
     "position", [286 5 620 470])
   
-Variables.Help.root = [
-        'folder', "Справка по программе", '#FFFFFF', "#000000";
-        'folder', "Справка по теории", '#FFFFFF', "#000000";
+Programm.Help.root = [
+    'folder', "Справка по программе", '#FFFFFF', "#000000";
+    'folder', "Справка по теории", '#FFFFFF', "#000000";
 ]
 
-Variables.Help.programm = [
-        'dynamic-blue-up', "Справка по программе", '#FFFFFF', "#000000";
-        'text-x-generic', "Как запустить моделирование?", '#FFFFFF', "#000000";
-        'text-x-generic', "Как сохранить результат моделирования?", '#FFFFFF', "#000000";
-        'text-x-generic', "Как посмотреть блок-схему фильтра?", '#FFFFFF', "#000000";
+Programm.Help.programm = [
+    'dynamic-blue-up', "Справка по программе", '#FFFFFF', "#000000";
+    'text-x-generic', "Как запустить моделирование?", '#FFFFFF', "#000000";
+    'text-x-generic', "Как сохранить результат моделирования?", '#FFFFFF', "#000000";
+    'text-x-generic', "Как посмотреть блок-схему фильтра?", '#FFFFFF', "#000000";
 ]
 
-Variables.Help.theory = [
-        'dynamic-blue-up', "Справка по теории", '#FFFFFF', "#000000";
-        'text-x-generic', "Метод вспомогательного оператора", '#FFFFFF', "#000000";
-        'text-x-generic', "...", '#FFFFFF', "#000000";
-        'text-x-generic', "...", '#FFFFFF', "#000000";
+Programm.Help.theory = [
+    'dynamic-blue-up', "Справка по теории", '#FFFFFF', "#000000";
+    'text-x-generic', "Метод вспомогательного оператора", '#FFFFFF', "#000000";
+    'text-x-generic', "...", '#FFFFFF', "#000000";
+    'text-x-generic', "...", '#FFFFFF', "#000000";
 ]
 
 navButtons = uicontrol(left_frame, ..
@@ -55,7 +54,7 @@ uicontrol(navButtons, ..
     "callback", "HomePage", ..
     "position", [5 5 30 30])
 
-Variables.Help.next = uicontrol(navButtons, ..
+Programm.Help.next = uicontrol(navButtons, ..
     "icon", "go-next", ..
     "callback", "NextPage", ..
     "position", [40 5 30 30])
@@ -65,10 +64,10 @@ uicontrol(navButtons, ..
     "callback", "HomePage", ..
     "position", [75 5 30 30])
 
-Variables.Help.lb = []
-Variables.Help.lb = uicontrol(left_frame, ..
+Programm.Help.lb = []
+Programm.Help.lb = uicontrol(left_frame, ..
     "style", "listbox", ..
-    "string", Variables.Help.root, ..
+    "string", Programm.Help.root, ..
     "callback", "changeNavigation", ..
     "margins", [0 5 5 5], ..
     "constraints", createConstraints("gridbag", [1 2 1 1], [1 1], "both"), ..
