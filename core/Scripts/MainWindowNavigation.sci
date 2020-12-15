@@ -24,11 +24,11 @@ function MainWindowNavigation_Forward()
     Programm.MainWindow.Buttons.Previous.Enable = "on";
 endfunction
 
-function MainWindowNavigation_Home)
+function MainWindowNavigation_Home()
     global Programm;
 
     Programm.MainWindow.Navigation.CurrentIndex = 1;
-    SetModulesList(1));
+    SetModulesList(1);
     
     Programm.MainWindow.Buttons.Previous.Enable = "off";
     Programm.MainWindow.Buttons.Next.Enable = "on";

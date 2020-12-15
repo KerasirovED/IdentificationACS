@@ -57,25 +57,19 @@ Programm.MainWindow.Frames.SignalParametres = uicontrol(Programm.MainWindow.Fram
     "style", "frame", ..
     "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]));
     
-Programm.MainWindow.Frames.SignalType = uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
+Programm.MainWindow.Popmenus.SignalType = [];
+Programm.MainWindow.Popmenus.SignalType = uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
     "style", "popupmenu", ..
     "string", Programm.Modules.InputSignals.List, ..
     "tag", "Programm.MainWindow.Frames.SignalType", ..
-    "callback", "AddModule(Programm.MainWindow.Frames.SignalType, Programm.Modules.InputSignals.Path, RefreshInputSignals)", ..
-    "position", [5 0 223 20]);
+    "callback", "AddModule(Programm.MainWindow.Popmenus.SignalType, Programm.Modules.InputSignals.Path, RefreshInputSignals)", ..
+    "position", [5 0 253 20]);
         
 uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
     "style", "pushbutton", ..
     "tag", "signalParametres", ..
-    "callback", "OpenModule(Programm.Modules.InputSignals.Path, Programm.MainWindow.Frames.SignalType.String(Programm.MainWindow.Frames.SignalType.Value))", ..
-    "icon", Programm.Path + "images\gearWheel2.png", ..
-    "position", [234 -1 22 22]);
-        
-uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
-    "style", "pushbutton", ..
-    "tag", "signalParametres", ..
-    "callback", "RefreshInputSignals", ..
-    "icon", Programm.Path + "images\refresh.png", ..
+    "callback", "OpenModule(Programm.Modules.InputSignals.Path, Programm.MainWindow.Popmenus.SignalType.String(Programm.MainWindow.Popmenus.SignalType.Value))", ..
+    "icon", "document-open-sci", ..
     "position", [260 -1 22 22]);
     
 uicontrol(Programm.MainWindow.Frames.Signal, ..
@@ -101,26 +95,18 @@ Programm.MainWindow.Frames.ObjectTransferFunctionParametres = uicontrol(Programm
     "style", "frame", ..
     "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]));
     
-Programm.MainWindow.Popmenus.TransferType = [];
 Programm.MainWindow.Popmenus.TransferType = uicontrol(Programm.MainWindow.Frames.ObjectTransferFunctionParametres, ..
     "style", "popupmenu", ..
     "string", Programm.Modules.Objects.List, ..
     "tag", "Programm.MainWindow.Popmenus.TransferType_tag", ..
     "callback", "AddModule(Programm.MainWindow.Popmenus.TransferType, Programm.Modules.Objects.Path, RefreshObjects)", ..
-    "position", [5 0 223 20]);
+    "position", [5 0 253 20]);
         
 uicontrol(Programm.MainWindow.Frames.ObjectTransferFunctionParametres, ..
     "style", "pushbutton", ..
     "tag", "signalParametres", ..
     "callback", "OpenModule(Programm.Modules.Objects.Path, Programm.MainWindow.Popmenus.TransferType.String(Programm.MainWindow.Popmenus.TransferType.Value))", ..
-    "icon", Programm.Path + "images\gearWheel2.png", ..
-    "position", [234 -1 22 22]);
-        
-uicontrol(Programm.MainWindow.Frames.ObjectTransferFunctionParametres, ..
-    "style", "pushbutton", ..
-    "tag", "signalParametres", ..
-    "callback", "RefreshObjects", ..
-    "icon", Programm.Path + "images\refresh.png", ..
+    "icon", "document-open-sci", ..
     "position", [260 -1 22 22]);
     
 uicontrol(Programm.MainWindow.Frames.ObjectTransferFunction, ..
@@ -173,6 +159,16 @@ Programm.MainWindow.Buttons.Home = uicontrol(Programm.MainWindow.Frames.SelectMo
     "callback", "MainWindowNavigation_Home", ..
     "enable", "off", ..
     "position", [75 5 30 30]);
+
+Programm.MainWindow.Buttons.Home = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+    "icon", "document-open-sci", ..
+    "callback", "MainWindowNavigation_Home", ..
+    "position", [217 5 30 30]);
+
+Programm.MainWindow.Buttons.Home = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+    "icon", "document-open", ..
+    "callback", "MainWindowNavigation_Home", ..
+    "position", [252 5 30 30]);
 
 Programm.MainWindow.Listboxes.SelectModuleListbox = [];
 Programm.MainWindow.Listboxes.SelectModuleListbox = uicontrol(Programm.MainWindow.Frames.SelectModule, ..
@@ -248,5 +244,10 @@ uicontrol(Programm.MainWindow.Frames.NoDataFrame, ..
     "ForeGroundColor", [.5 .5 .5]);
 
 // SetModulesList(Programm.MainWindow.Navigation.List(Programm.MainWindow.Navigation.CurrentIndex));
+
+set(Programm.MainWindow.Listboxes.SelectModuleListbox, "String", ["textXcos.xcos"; "textSciNotes.sci"]);
+
+RefreshInputSignals();
+RefreshObjects();
 
 Programm.MainWindow.Window.visible = "on";
