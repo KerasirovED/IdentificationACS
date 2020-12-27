@@ -113,7 +113,7 @@ uicontrol(Programm.MainWindow.Frames.ObjectTransferFunction, ..
     "style", "frame", ..
     "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both", "center"));
     
-//-------- Порядок фильтра --------//
+//-------- Система идентификации --------//
 
 Programm.MainWindow.Frames.SelectModule = uicontrol(Programm.MainWindow.Frames.Left, ..
     "style", "frame", ..
@@ -141,39 +141,41 @@ Programm.MainWindow.Frames.SelectModuleNavigationButtons = uicontrol(Programm.Ma
     "style", "frame", ..
     "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 40]));
     
-Programm.MainWindow.Buttons.Previous = [];
-Programm.MainWindow.Buttons.Previous = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+Programm.MainWindow.Buttons.Backward = [];
+Programm.MainWindow.Buttons.Backward = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", "go-previous", ..
-    "callback", "MainWindowNavigation_Backward", ..
+    "callback", "mwn_b", ..
     "enable", "off", ..
     "position", [5 5 30 30]);
 
-Programm.MainWindow.Buttons.Next = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+Programm.MainWindow.Buttons.Forward = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", "go-next", ..
-    "callback", "MainWindowNavigation_Forward", ..
+    "callback", "mwn_f", ..
     "enable", "off", ..
     "position", [40 5 30 30]);
     
 Programm.MainWindow.Buttons.Home = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", "user-home", ..
-    "callback", "MainWindowNavigation_Home", ..
+    "callback", "mwn_h", ..
     "enable", "off", ..
     "position", [75 5 30 30]);
 
-Programm.MainWindow.Buttons.Home = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+Programm.MainWindow.Buttons.AddFolder = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", "document-open-sci", ..
-    "callback", "MainWindowNavigation_Home", ..
+    "callback", "", ..
     "position", [217 5 30 30]);
 
-Programm.MainWindow.Buttons.Home = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+Programm.MainWindow.Buttons.AddNewModule = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", "document-open", ..
-    "callback", "MainWindowNavigation_Home", ..
+    "callback", "", ..
     "position", [252 5 30 30]);
 
 Programm.MainWindow.Listboxes.SelectModuleListbox = [];
 Programm.MainWindow.Listboxes.SelectModuleListbox = uicontrol(Programm.MainWindow.Frames.SelectModule, ..
     "style", "listbox", ..
     "Margins", [0 5 5 5], ..
+    "callback", "mwn_o(Programm.MainWindow.Listboxes.SelectModuleListbox.String(Programm.MainWindow.Listboxes.SelectModuleListbox.Value + size(Programm.MainWindow.Listboxes.SelectModuleListbox.String, ""r"")))", ..
+    ..//"callback", "mwn_o(Programm.MainWindow.Listboxes.SelectModuleListbox.String(Programm.MainWindow.Listboxes.SelectModuleListbox.Value))", ..  // Hard Exception
     "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both"));
 
 //-------- Время моделирования --------//
@@ -211,7 +213,8 @@ Programm.MainWindow.Frames.StartSimulation = uicontrol(Programm.MainWindow.Frame
 Programm.MainWindow.Buttons.Start = uicontrol(Programm.MainWindow.Frames.StartSimulation, ..
     "style", "pushbutton", ..
     "string", "Пуск", ..
-    "callback", "Set_Xcos_parametres(plot_frame)", ..
+    ..//"callback", "StartSimulation", ..
+    "callback", "exec(Programm.Path + ""Scripts\StartSimulation.sce"")", ..
     "constraints", createConstraints("gridbag", [1 1 1 1], [1 1], "both"));
 
 // -------------------------------------------------------------------------
@@ -243,9 +246,9 @@ uicontrol(Programm.MainWindow.Frames.NoDataFrame, ..
     "string", "< Нет данных >", ..
     "ForeGroundColor", [.5 .5 .5]);
 
-// SetModulesList(Programm.MainWindow.Navigation.List(Programm.MainWindow.Navigation.CurrentIndex));
+SetModulesList(Programm.MainWindow.Navigation.List(Programm.MainWindow.Navigation.CurrentIndex));
 
-set(Programm.MainWindow.Listboxes.SelectModuleListbox, "String", ["textXcos.xcos"; "textSciNotes.sci"]);
+// set(Programm.MainWindow.Listboxes.SelectModuleListbox, "String", ["textXcos.xcos"; "textSciNotes.sci"]);
 
 RefreshInputSignals();
 RefreshObjects();

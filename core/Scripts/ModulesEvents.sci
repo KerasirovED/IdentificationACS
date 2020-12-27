@@ -3,7 +3,7 @@
 function RefreshInputSignals()
     global Programm;
 
-    Programm.Modules.InputSignals.List = strsubst(findfiles(Programm.Modules.InputSignals.Path, "*.zcos"), ".zcos", "");
+    Programm.Modules.InputSignals.List = findfiles(Programm.Modules.InputSignals.Path);
     Programm.Modules.InputSignals.List = [Programm.Modules.InputSignals.List; "Добавить..."];
     
     set(Programm.MainWindow.Popmenus.SignalType, "String", Programm.Modules.InputSignals.List);
@@ -33,10 +33,10 @@ endfunction
 function AddModule(popupmenu, path, refreshFunc)
     if popupmenu.String(popupmenu.Value) <> "Добавить..." then return; end
     
-    [newFileName, newFilePath] = uigetfile(["*.zcos", "XCos Files (*.zcos)"])
+    [newFileName, newFilePath] = uigetfile(["*.sci", "SciNotes Files (*.sci)"; "*.zcos", "XCos Files (*.zcos)"])
     
     if newFilePath <> "" then
-        if find(newFileName == findfiles(path, "*.zcos")) <> [] then
+        if find(newFileName == findfiles(path, "*.zcos")) | find(newFileName == findfiles(path, "*.sci")) <> [] then
             messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
         elseif newFileName == "Добавить..." then
             messagebox("Это зарезервированное имя!", "Error", "error", ["Ок"], "modal");
@@ -45,9 +45,13 @@ function AddModule(popupmenu, path, refreshFunc)
         end
     end
     
-    refreshFunc()
+    refreshFunc();
 endfunction
 
 function OpenModule(path, name)
-    xcos(path + name + ".zcos");
+    if (strrchr(name, '.') == ".sce") then
+        scinotes(path + name);
+    else
+        xcos(path + name);
+    end
 endfunction

@@ -19,7 +19,7 @@ Programm.MainWindow.Buttons = [];
 Programm.MainWindow.Texts = [];
 
 Programm.MainWindow.Navigation = [];
-Programm.MainWindow.Navigation.List = list(Programm.Path + "\modules\Identification");
+Programm.MainWindow.Navigation.List = list(Programm.Path + "modules\Identification\");
 Programm.MainWindow.Navigation.CurrentIndex = 1;
 
 Programm.Diagrams = [];
@@ -75,5 +75,8 @@ exec(Programm.Path + "interfaces\mainWindow.sce");
 
 close(waitbarHandle);
 clear waitbarHandle;
+
+MODULATION_TIME = 1;
+MODULATION_STEP = 0.1;
 
 warning("on");
