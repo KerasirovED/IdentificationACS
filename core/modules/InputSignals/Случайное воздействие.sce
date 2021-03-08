@@ -1,5 +1,5 @@
 out = [];
 
-for i = 1 : MODULATION_STEP : MODULATION_TIME
+for i = 0 : MODULATION_STEP : MODULATION_TIME
     out = [out rand()];
 end

@@ -53,7 +53,7 @@ Programm.Modules.Objects.Path = Programm.Path + "modules\Objects\";
 Programm.Modules.Objects.List = "";
 
 Programm.Modules.Indetification = [];
-Programm.Modules.Indetification.Path = Programm.Path + "modules\Indetification\";
+Programm.Modules.Indetification.Path = Programm.Path + "modules\Identification\";
 Programm.Modules.Indetification.List = "";
 
 // Импорт XCos диграммы

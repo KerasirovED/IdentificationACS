@@ -78,38 +78,38 @@ uicontrol(Programm.MainWindow.Frames.Signal, ..
 
 //-------- Модель объекта --------//
 
-Programm.MainWindow.Frames.ObjectTransferFunction = uicontrol(Programm.MainWindow.Frames.Left, ..
+Programm.MainWindow.Frames.ObjectModel = uicontrol(Programm.MainWindow.Frames.Left, ..
     "style", "frame", ..
     "layout", "gridbag", ..
     "Margins", [5 5 0 5], ..
     "border", createBorder("line", "gray", 1), ..
     "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "horizontal", "upper", [0 0], [0 50]));
 
-uicontrol(Programm.MainWindow.Frames.ObjectTransferFunction, ..
+uicontrol(Programm.MainWindow.Frames.ObjectModel, ..
     "style", "text", ..
     "string", "Модель объекта:", ..
     "margins", [5 5 5 5], ..
     "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper"));
     
-Programm.MainWindow.Frames.ObjectTransferFunctionParametres = uicontrol(Programm.MainWindow.Frames.ObjectTransferFunction, ..
+Programm.MainWindow.Frames.ObjectModelParametres = uicontrol(Programm.MainWindow.Frames.ObjectModel, ..
     "style", "frame", ..
     "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]));
     
-Programm.MainWindow.Popmenus.TransferType = uicontrol(Programm.MainWindow.Frames.ObjectTransferFunctionParametres, ..
+Programm.MainWindow.Popmenus.ObjectModel = uicontrol(Programm.MainWindow.Frames.ObjectModelParametres, ..
     "style", "popupmenu", ..
     "string", Programm.Modules.Objects.List, ..
-    "tag", "Programm.MainWindow.Popmenus.TransferType_tag", ..
-    "callback", "AddModule(Programm.MainWindow.Popmenus.TransferType, Programm.Modules.Objects.Path, RefreshObjects)", ..
+    "tag", "Programm.MainWindow.Popmenus.ObjectModel_tag", ..
+    "callback", "AddModule(Programm.MainWindow.Popmenus.ObjectModel, Programm.Modules.Objects.Path, RefreshObjects)", ..
     "position", [5 0 253 20]);
         
-uicontrol(Programm.MainWindow.Frames.ObjectTransferFunctionParametres, ..
+uicontrol(Programm.MainWindow.Frames.ObjectModelParametres, ..
     "style", "pushbutton", ..
     "tag", "signalParametres", ..
-    "callback", "OpenModule(Programm.Modules.Objects.Path, Programm.MainWindow.Popmenus.TransferType.String(Programm.MainWindow.Popmenus.TransferType.Value))", ..
+    "callback", "OpenModule(Programm.Modules.Objects.Path, Programm.MainWindow.Popmenus.ObjectModel.String(Programm.MainWindow.Popmenus.ObjectModel.Value))", ..
     "icon", "document-open-sci", ..
     "position", [260 -1 22 22]);
     
-uicontrol(Programm.MainWindow.Frames.ObjectTransferFunction, ..
+uicontrol(Programm.MainWindow.Frames.ObjectModel, ..
     "style", "frame", ..
     "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both", "center"));
     

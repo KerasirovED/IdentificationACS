@@ -1,9 +1,9 @@
 
-
 function RefreshInputSignals()
     global Programm;
 
-    Programm.Modules.InputSignals.List = findfiles(Programm.Modules.InputSignals.Path);
+    Programm.Modules.InputSignals.List = findfiles(Programm.Modules.InputSignals.Path, "*.zcos");
+    Programm.Modules.InputSignals.List = [Programm.Modules.InputSignals.List; findfiles(Programm.Modules.InputSignals.Path, "*.sce")];
     Programm.Modules.InputSignals.List = [Programm.Modules.InputSignals.List; "Добавить..."];
     
     set(Programm.MainWindow.Popmenus.SignalType, "String", Programm.Modules.InputSignals.List);
@@ -18,15 +18,16 @@ endfunction
 function RefreshObjects()
     global Programm;
 
-    Programm.Modules.Objects.List = strsubst(findfiles(Programm.Modules.Objects.Path, "*.zcos"), ".zcos", "");    
+    Programm.Modules.Objects.List = findfiles(Programm.Modules.Objects.Path, "*.zcos");
+    Programm.Modules.Objects.List = [Programm.Modules.Objects.List; findfiles(Programm.Modules.Objects.Path, "*.sce")];
     Programm.Modules.Objects.List = [Programm.Modules.Objects.List; "Добавить..."];
     
-    set(Programm.MainWindow.Popmenus.TransferType, "String", Programm.Modules.Objects.List);
+    set(Programm.MainWindow.Popmenus.ObjectModel, "String", Programm.Modules.Objects.List);
     
     if Programm.Modules.Objects.List == ["Добавить..."] then
-        set(Programm.MainWindow.Popmenus.TransferType, "Value", 0);
+        set(Programm.MainWindow.Popmenus.ObjectModel, "Value", 0);
     else
-        set(Programm.MainWindow.Popmenus.TransferType, "Value", 1);
+        set(Programm.MainWindow.Popmenus.ObjectModel, "Value", 1);
     end
 endfunction
 
