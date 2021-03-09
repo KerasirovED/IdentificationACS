@@ -129,46 +129,68 @@ Programm.MainWindow.Frames.SelectedModule = uicontrol(Programm.MainWindow.Frames
 uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
     "style", "text", ..
     "string", "Выбран модуль:", ..
-    "position", [5 0 90 20]);
+    "position", [5 0 85 20]);
 
 Programm.MainWindow.Texts.ModuleName = [];
 Programm.MainWindow.Texts.ModuleName = uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
     "style", "text", ..
     "string", "<не выбрано>", ..
-    "position", [95 0 195 20]);
+    "position", [95 0 165 20]);
+
+Programm.MainWindow.Buttons.ObjectModel = [];
+Programm.MainWindow.Buttons.ObjectModel = uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
+    "style", "pushbutton", ..
+    "tag", "signalParametres", ..
+    "callback", "OpenModule(Programm.MainWindow.Navigation.List(Programm.MainWindow.Navigation.CurrentIndex), Programm.MainWindow.Texts.ModuleName.String)", ..
+    "icon", "document-open-sci", ..
+    "enable", "off", ..
+    "position", [260 -1 22 22]);
 
 Programm.MainWindow.Frames.SelectModuleNavigationButtons = uicontrol(Programm.MainWindow.Frames.SelectModule, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 40]));
+    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 60]));
     
-Programm.MainWindow.Buttons.Backward = [];
 Programm.MainWindow.Buttons.Backward = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", "go-previous", ..
     "callback", "mwn_b", ..
     "enable", "off", ..
-    "position", [5 5 30 30]);
+    "position", [5 25 30 30]);
 
 Programm.MainWindow.Buttons.Forward = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", "go-next", ..
     "callback", "mwn_f", ..
     "enable", "off", ..
-    "position", [40 5 30 30]);
+    "position", [40 25 30 30]);
     
 Programm.MainWindow.Buttons.Home = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", "user-home", ..
     "callback", "mwn_h", ..
     "enable", "off", ..
-    "position", [75 5 30 30]);
+    "position", [75 25 30 30]);
+
+Programm.MainWindow.Buttons.RemoveFolder = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+    "icon", Programm.Path + "images\remove-folder.png", ..
+    "callback", "mwn_rmvFldr", ..
+    "TooltipString", "Удалить текущую папку", ..
+    "enable", "off", ..
+    "position", [182 25 30 30]);
 
 Programm.MainWindow.Buttons.AddFolder = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
-    "icon", "document-open-sci", ..
-    "callback", "", ..
-    "position", [217 5 30 30]);
+    "icon", Programm.Path + "images\add-folder.png", ..
+    "callback", "mwn_crtFldr", ..
+    "TooltipString", "Создать папку", ..
+    "position", [217 25 30 30]);
 
 Programm.MainWindow.Buttons.AddNewModule = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
-    "icon", "document-open", ..
+    "icon", Programm.Path + "images\add-file.png", ..
     "callback", "", ..
-    "position", [252 5 30 30]);
+    "TooltipString", "Добавить модуль", ..
+    "position", [252 25 30 30]);
+
+Programm.MainWindow.Texts.CurrentPath = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+    "style", "text", ..
+    "string", "\", ..
+    "position", [5 0 277 20]);
 
 Programm.MainWindow.Listboxes.SelectModuleListbox = [];
 Programm.MainWindow.Listboxes.SelectModuleListbox = uicontrol(Programm.MainWindow.Frames.SelectModule, ..

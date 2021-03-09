@@ -19,6 +19,7 @@ Programm.MainWindow.Buttons = [];
 Programm.MainWindow.Texts = [];
 
 Programm.MainWindow.Navigation = [];
+Programm.MainWindow.Navigation.CurrentFolderName = "\";
 Programm.MainWindow.Navigation.List = list(Programm.Path + "modules\Identification\");
 Programm.MainWindow.Navigation.CurrentIndex = 1;
 
