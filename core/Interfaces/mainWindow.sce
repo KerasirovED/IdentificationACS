@@ -207,25 +207,37 @@ Programm.MainWindow.Listboxes.SelectModuleListbox = uicontrol(Programm.MainWindo
     "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both"));
 
 //-------- Время моделирования --------//
-
-Programm.MainWindow.Frames.SimulationTime = uicontrol(Programm.MainWindow.Frames.Left, ..
+    
+Programm.MainWindow.Frames.ModulationSettings = uicontrol(Programm.MainWindow.Frames.Left, ..
     "style", "frame", ..
     "margins", [5 5 0 5], ..
     "border", createBorder("line", "gray", 1), ..
-    "constraints", createConstraints("gridbag", [1 6 1 1], [1 0], "horizontal", "upper", [0 0], [0 30]));
+    "constraints", createConstraints("gridbag", [1 6 1 1], [1 0], "horizontal", "upper", [0 0], [0 55]));
     
-uicontrol(Programm.MainWindow.Frames.SimulationTime, ..
+uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
     "style", "text", ..
     "string", "Время моделирования:", ..
     "position", [5 5 125 20]);
     
-uicontrol(Programm.MainWindow.Frames.SimulationTime, ..
+Programm.MainWindow.Texts.ModulationTime = uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
     "style", "edit", ..
-    "tag", "Время моделирования", ..
     "string", "250", ..
     "position", [130 5 155 20]);
+
+//-------- Шаг моделирования --------//
     
-//Растягивающийся frame
+uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
+    "style", "text", ..
+    "string", "Шаг моделирования:", ..
+    "position", [5 30 125 20]);
+    
+Programm.MainWindow.Texts.ModulationStep = uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
+    "style", "edit", ..
+    "string", "0.1", ..
+    "position", [130 30 155 20]);
+
+//-------- Растягивающийся frame--------//
+
 uicontrol(Programm.MainWindow.Frames.Left, ..
     "style", "frame", ..
     "constraints", createConstraints("gridbag", [1 7 1 1], [1 1], "both"));
