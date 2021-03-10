@@ -37,7 +37,9 @@ function AddModule(popupmenu, path, refreshFunc)
     [newFileName, newFilePath] = uigetfile(["*.sci", "SciNotes Files (*.sci)"; "*.zcos", "XCos Files (*.zcos)"])
     
     if newFilePath <> "" then
-        if find(newFileName == findfiles(path, "*.zcos")) | find(newFileName == findfiles(path, "*.sci")) <> [] then
+        if find(newFileName == findfiles(path, "*.zcos")) <> [] then
+            messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
+        elseif find(newFileName == findfiles(path, "*.sci")) <> [] then
             messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
         elseif newFileName == "Добавить..." then
             messagebox("Это зарезервированное имя!", "Error", "error", ["Ок"], "modal");
@@ -50,7 +52,7 @@ function AddModule(popupmenu, path, refreshFunc)
 endfunction
 
 function OpenModule(path, name)
-    if (strrchr(name, '.') == ".sce") then
+    if strrchr(name, '.') == ".sce" | strrchr(name, '.') == ".sci" then
         scinotes(path + name);
     else
         xcos(path + name);

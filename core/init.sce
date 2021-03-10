@@ -3,81 +3,92 @@ warning("off");
 
 waitbarHandle = progressionbar(["Выполняется запуск программы."; "Ожидайте..."]);
 
-// Переменная состояний программы
-global Programm;
+// try
+    // Переменная состояний программы
+    global Programm;
 
-Programm = [];
-Programm.Path = get_absolute_file_path("init.sce"); // Относительный путь
-Programm.Version = "alpha 0";
+    Programm = [];
+    Programm.Path = get_absolute_file_path("init.sce"); // Относительный путь
+    Programm.Version = "alpha 0";
 
-Programm.MainWindow = [];
-Programm.MainWindow.Window = [];
-Programm.MainWindow.Frames = [];
-Programm.MainWindow.Popmenus = [];
-Programm.MainWindow.Listboxes = [];
-Programm.MainWindow.Buttons = [];
-Programm.MainWindow.Texts = [];
+    Programm.MainWindow = [];
+    Programm.MainWindow.Window = [];
+    Programm.MainWindow.Frames = [];
+    Programm.MainWindow.Popmenus = [];
+    Programm.MainWindow.Listboxes = [];
+    Programm.MainWindow.Buttons = [];
+    Programm.MainWindow.Texts = [];
 
-Programm.MainWindow.Navigation = [];
-Programm.MainWindow.Navigation.CurrentFolderName = "\";
-Programm.MainWindow.Navigation.List = list(Programm.Path + "modules\Identification\");
-Programm.MainWindow.Navigation.CurrentIndex = 1;
+    Programm.MainWindow.Navigation = [];
+    Programm.MainWindow.Navigation.FolderNames = list("");
+    Programm.MainWindow.Navigation.FullPaths = list(Programm.Path + "modules\Identification\");
+    Programm.MainWindow.Navigation.RelativePaths = list("\");
+    Programm.MainWindow.Navigation.CurrentIndex = 1;
 
-Programm.Diagrams = [];
-Programm.Diagrams.Main = [];
-Programm.Diagrams.InputSignal = [];
-Programm.Diagrams.Object = [];
-Programm.Diagrams.Identification = [];
+    Programm.MainWindow.SelectedModule = [];
+    Programm.MainWindow.SelectedModule.Name = "<не выбранно>";
+    Programm.MainWindow.SelectedModule.Path = "";
 
-Programm.Help = [];
+    Programm.Diagrams = [];
+    Programm.Diagrams.Main = [];
+    Programm.Diagrams.InputSignal = [];
+    Programm.Diagrams.Object = [];
+    Programm.Diagrams.Identification = [];
 
-Programm.Model.Aperiodic1 = ["1" "0.1"];
-Programm.Model.Aperiodic2 = ["1" "0.1" "0.01"];
+    Programm.Help = [];
 
-Programm.Filter.First = ["1" "-1"];
-Programm.Filter.Second = ["1" "-1" "-10"];
+    Programm.Model.Aperiodic1 = ["1" "0.1"];
+    Programm.Model.Aperiodic2 = ["1" "0.1" "0.01"];
 
-Programm.LastModulation.SignalType.Name = [];
-Programm.LastModulation.SignalType.Parametres = ["Время возникновения = 1"; "Начальное значение = 0"; "Итоговое значение = 1"];
-Programm.LastModulation.ObjectModel.Name = [];
-Programm.LastModulation.ObjectModel.Parametres = ["Коэффициент усиления = 1"; "Постоянная времени = 0.1"];
-Programm.LastModulation.FilterOrder.Name = [];
-Programm.LastModulation.FilterOrder.Parametres = ["Коэффициент усиления = 1"; "Постоянная времени = -1"];
+    Programm.Filter.First = ["1" "-1"];
+    Programm.Filter.Second = ["1" "-1" "-10"];
 
-Programm.Modules = [];
-Programm.Modules.InputSignals = [];
-Programm.Modules.InputSignals.Path = Programm.Path + "modules\InputSignals\";
-Programm.Modules.InputSignals.List = "";
+    Programm.LastModulation.SignalType.Name = [];
+    Programm.LastModulation.SignalType.Parametres = ["Время возникновения = 1"; "Начальное значение = 0"; "Итоговое значение = 1"];
+    Programm.LastModulation.ObjectModel.Name = [];
+    Programm.LastModulation.ObjectModel.Parametres = ["Коэффициент усиления = 1"; "Постоянная времени = 0.1"];
+    Programm.LastModulation.FilterOrder.Name = [];
+    Programm.LastModulation.FilterOrder.Parametres = ["Коэффициент усиления = 1"; "Постоянная времени = -1"];
 
-Programm.Modules.Objects = [];
-Programm.Modules.Objects.Path = Programm.Path + "modules\Objects\";
-Programm.Modules.Objects.List = "";
+    Programm.Modules = [];
+    Programm.Modules.InputSignals = [];
+    Programm.Modules.InputSignals.Path = Programm.Path + "modules\InputSignals\";
+    Programm.Modules.InputSignals.List = "";
 
-Programm.Modules.Indetification = [];
-Programm.Modules.Indetification.Path = Programm.Path + "modules\Identification\";
-Programm.Modules.Indetification.List = "";
+    Programm.Modules.Objects = [];
+    Programm.Modules.Objects.Path = Programm.Path + "modules\Objects\";
+    Programm.Modules.Objects.List = "";
 
-// Импорт XCos диграммы
-importXcosDiagram(Programm.Path + "MainXcos.zcos");
+    Programm.Modules.Indetification = [];
+    Programm.Modules.Indetification.Path = Programm.Path + "modules\Identification\";
+    Programm.Modules.Indetification.List = "";
 
-// load the blocks library and the simulation engine
-loadXcosLibs(); 
-loadScicos();
+    // Импорт XCos диграммы
+    importXcosDiagram(Programm.Path + "MainXcos.zcos");
 
-// Импорт *.sci файлов
-getd(Programm.Path + "\Scripts");
-getd(Programm.Path + "help\");
-getd(Programm.Path + "help\Programm\How to save open XCos\");
-getd(Programm.Path + "help\Programm\How to save results\");
-getd(Programm.Path + "help\Programm\How to use programm\");
+    // load the blocks library and the simulation engine
+    loadXcosLibs(); 
+    loadScicos();
 
-// Отрисовка интерфейса
-exec(Programm.Path + "interfaces\mainWindow.sce");
+    // Импорт *.sci файлов
+    getd(Programm.Path + "Scripts\");
+    getd(Programm.Path + "help\");
+    getd(Programm.Path + "help\Programm\How to save open XCos\");
+    getd(Programm.Path + "help\Programm\How to save results\");
+    getd(Programm.Path + "help\Programm\How to use programm\");
+
+    // Отрисовка интерфейса
+    exec(Programm.Path + "interfaces\mainWindow.sce");
+
+    MODULATION_TIME = 1;
+    MODULATION_STEP = 0.1;
+// catch
+//     [error_message,error_number, line, func]=lasterror(%f);
+//     messagebox(["Error " + string(error_number); error_message;
+//         "at line " + string(line) + " of function " + func], "Error!", "error", "modal");
+// end
 
 close(waitbarHandle);
 clear waitbarHandle;
-
-MODULATION_TIME = 1;
-MODULATION_STEP = 0.1;
 
 warning("on");

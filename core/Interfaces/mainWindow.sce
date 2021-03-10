@@ -134,14 +134,14 @@ uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
 Programm.MainWindow.Texts.ModuleName = [];
 Programm.MainWindow.Texts.ModuleName = uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
     "style", "text", ..
-    "string", "<не выбрано>", ..
+    "string", Programm.MainWindow.SelectedModule.Name, ..
     "position", [95 0 165 20]);
 
 Programm.MainWindow.Buttons.ObjectModel = [];
 Programm.MainWindow.Buttons.ObjectModel = uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
     "style", "pushbutton", ..
     "tag", "signalParametres", ..
-    "callback", "OpenModule(Programm.MainWindow.Navigation.List(Programm.MainWindow.Navigation.CurrentIndex), Programm.MainWindow.Texts.ModuleName.String)", ..
+    "callback", "OpenModule(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex), Programm.MainWindow.Texts.ModuleName.String)", ..
     "icon", "document-open-sci", ..
     "enable", "off", ..
     "position", [260 -1 22 22]);
@@ -173,23 +173,29 @@ Programm.MainWindow.Buttons.RemoveFolder = uicontrol(Programm.MainWindow.Frames.
     "callback", "mwn_rmvFldr", ..
     "TooltipString", "Удалить текущую папку", ..
     "enable", "off", ..
-    "position", [182 25 30 30]);
+    "position", [147 25 30 30]);
 
 Programm.MainWindow.Buttons.AddFolder = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", Programm.Path + "images\add-folder.png", ..
     "callback", "mwn_crtFldr", ..
     "TooltipString", "Создать папку", ..
+    "position", [182 25 30 30]);
+
+Programm.MainWindow.Buttons.RemoveModule = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
+    "icon", Programm.Path + "images\remove-file.png", ..
+    "callback", "mwn_removeModule", ..
+    "TooltipString", "Удалить выбранный модуль", ..
+    "enable", "off", ..
     "position", [217 25 30 30]);
 
 Programm.MainWindow.Buttons.AddNewModule = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", Programm.Path + "images\add-file.png", ..
-    "callback", "", ..
+    "callback", "mwn_addModule", ..
     "TooltipString", "Добавить модуль", ..
     "position", [252 25 30 30]);
 
 Programm.MainWindow.Texts.CurrentPath = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "style", "text", ..
-    "string", "\", ..
     "position", [5 0 277 20]);
 
 Programm.MainWindow.Listboxes.SelectModuleListbox = [];
@@ -268,9 +274,7 @@ uicontrol(Programm.MainWindow.Frames.NoDataFrame, ..
     "string", "< Нет данных >", ..
     "ForeGroundColor", [.5 .5 .5]);
 
-SetModulesList(Programm.MainWindow.Navigation.List(Programm.MainWindow.Navigation.CurrentIndex));
-
-// set(Programm.MainWindow.Listboxes.SelectModuleListbox, "String", ["textXcos.xcos"; "textSciNotes.sci"]);
+SetModulesList(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex));
 
 RefreshInputSignals();
 RefreshObjects();
