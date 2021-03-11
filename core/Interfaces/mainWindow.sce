@@ -221,7 +221,7 @@ uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
     
 Programm.MainWindow.Texts.ModulationTime = uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
     "style", "edit", ..
-    "string", "250", ..
+    "string", "10", ..
     "position", [130 5 155 20]);
 
 //-------- Шаг моделирования --------//

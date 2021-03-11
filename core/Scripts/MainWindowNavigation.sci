@@ -82,7 +82,7 @@ function mwn_o(name)
         Programm.MainWindow.Texts.ModuleName.String = name;
         Programm.MainWindow.SelectedModule.Name = name;
         Programm.MainWindow.SelectedModule.Path = ..
-            Programm.MainWindow.Navigation.RelativePaths(Programm.MainWindow.Navigation.CurrentIndex) + pathName;
+            Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex) + name;
 
         Programm.MainWindow.Buttons.ObjectModel.Enable = "on";
         Programm.MainWindow.Buttons.RemoveModule.Enable = "on";
