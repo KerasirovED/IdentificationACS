@@ -27,6 +27,8 @@ m = uimenu(Programm.MainWindow.Window, "label", "Справка");
 uimenu(m, "label", "Справка", "callback", "exec(Programm.Path + ""help\Help.sce"")", "icon", "help-browser");
 uimenu(m, "label", "О программе", "callback", "AboutUs", "icon", "dialog-information");
 
+clear m;
+
 // -------------------------------------------------------------------------
 // Left Frame 
 // -------------------------------------------------------------------------
@@ -45,7 +47,7 @@ Programm.MainWindow.Frames.Signal = uicontrol(Programm.MainWindow.Frames.Left, .
     "layout", "gridbag", ..
     "Margins", [5 5 0 5], ..
     "border", createBorder("line", "gray", 1), ..
-    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper", [0 0], [0 50]));
+    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "horizontal", "upper", [0 0], [0 75]));
 
 uicontrol(Programm.MainWindow.Frames.Signal, ..
     "style", "text", ..
@@ -55,7 +57,7 @@ uicontrol(Programm.MainWindow.Frames.Signal, ..
     
 Programm.MainWindow.Frames.SignalParametres = uicontrol(Programm.MainWindow.Frames.Signal, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]));
+    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 45]));
     
 Programm.MainWindow.Popmenus.SignalType = [];
 Programm.MainWindow.Popmenus.SignalType = uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
@@ -63,14 +65,20 @@ Programm.MainWindow.Popmenus.SignalType = uicontrol(Programm.MainWindow.Frames.S
     "string", Programm.Modules.InputSignals.List, ..
     "tag", "Programm.MainWindow.Frames.SignalType", ..
     "callback", "AddModule(Programm.MainWindow.Popmenus.SignalType, Programm.Modules.InputSignals.Path, RefreshInputSignals)", ..
-    "position", [5 0 253 20]);
+    "position", [5 25 253 20]);
         
 uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
     "style", "pushbutton", ..
     "tag", "signalParametres", ..
     "callback", "OpenModule(Programm.Modules.InputSignals.Path, Programm.MainWindow.Popmenus.SignalType.String(Programm.MainWindow.Popmenus.SignalType.Value))", ..
     "icon", "document-open-sci", ..
-    "position", [260 -1 22 22]);
+    "position", [260 24 22 22]);
+
+Programm.MainWindow.Checkboxes.ShowSource = [];
+Programm.MainWindow.Checkboxes.ShowSource = uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
+    "style", "checkbox", ..
+    "string", "Выводить на график", ..
+    "position", [2 0 253 20]);
     
 uicontrol(Programm.MainWindow.Frames.Signal, ..
     "style", "frame", ..
@@ -83,7 +91,7 @@ Programm.MainWindow.Frames.ObjectModel = uicontrol(Programm.MainWindow.Frames.Le
     "layout", "gridbag", ..
     "Margins", [5 5 0 5], ..
     "border", createBorder("line", "gray", 1), ..
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "horizontal", "upper", [0 0], [0 50]));
+    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "horizontal", "upper", [0 0], [0 75]));
 
 uicontrol(Programm.MainWindow.Frames.ObjectModel, ..
     "style", "text", ..
@@ -93,21 +101,26 @@ uicontrol(Programm.MainWindow.Frames.ObjectModel, ..
     
 Programm.MainWindow.Frames.ObjectModelParametres = uicontrol(Programm.MainWindow.Frames.ObjectModel, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 20]));
+    "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 45]));
     
 Programm.MainWindow.Popmenus.ObjectModel = uicontrol(Programm.MainWindow.Frames.ObjectModelParametres, ..
     "style", "popupmenu", ..
     "string", Programm.Modules.Objects.List, ..
     "tag", "Programm.MainWindow.Popmenus.ObjectModel_tag", ..
     "callback", "AddModule(Programm.MainWindow.Popmenus.ObjectModel, Programm.Modules.Objects.Path, RefreshObjects)", ..
-    "position", [5 0 253 20]);
+    "position", [5 25 253 20]);
         
 uicontrol(Programm.MainWindow.Frames.ObjectModelParametres, ..
     "style", "pushbutton", ..
     "tag", "signalParametres", ..
     "callback", "OpenModule(Programm.Modules.Objects.Path, Programm.MainWindow.Popmenus.ObjectModel.String(Programm.MainWindow.Popmenus.ObjectModel.Value))", ..
     "icon", "document-open-sci", ..
-    "position", [260 -1 22 22]);
+    "position", [260 24 22 22]);
+
+Programm.MainWindow.Checkboxes.ShowObj = uicontrol(Programm.MainWindow.Frames.ObjectModelParametres, ..
+    "style", "checkbox", ..
+    "string", "Выводить на график", ..
+    "position", [2 0 253 20]);
     
 uicontrol(Programm.MainWindow.Frames.ObjectModel, ..
     "style", "frame", ..

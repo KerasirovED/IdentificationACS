@@ -10,8 +10,4 @@
 // г. Хабаровск — 2020 г.
 //=============================================================================
 
-clear
-clc
-
-programmPath = get_absolute_file_path("Запуск программы.sce");
-exec(programmPath + "core\init.sce");
+exec(get_absolute_file_path("Запуск программы.sce") + "core\init.sce");
