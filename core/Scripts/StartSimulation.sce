@@ -1,7 +1,18 @@
+Programm.MainWindow.Frames.PlotFrame.Visible = "on";
+
+delete(Programm.MainWindow.Frames.PlotFrame.Children);
+newaxes(Programm.MainWindow.Frames.PlotFrame);
+
+Programm.MainWindow.Frames.StartSimulation.Enable  = "off";
+Programm.MainWindow.Frames.NoDataFrame.Visible = "on";
+Programm.MainWindow.Frames.PlotFrame.Visible = "off";
+
+__waitbarHandle__ = progressionbar("Выполнение моделирования...");
+
 __modulationStep__ = strtod(Programm.MainWindow.Texts.ModulationStep.String);
 __modulationTime__ = strtod(Programm.MainWindow.Texts.ModulationTime.String);
 __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; // Массив времени для построения графиков и т.п. (Scilab передает неверно). 
-                                                                    // ' — транспонирование матрицы (массив времени — столбец)
+                                                                                // ' — транспонирование матрицы (массив времени — столбец)
 
 // Симуляция входного сигнала
 try
@@ -9,7 +20,7 @@ try
 
     if (strrchr(__inputSignal__, '.') == ".sce") then
         exec(Programm.Modules.InputSignals.Path + __inputSignal__); // Выполнение модуля
-        __outInputSignal__ = struct("values", out, "__time__", __time__); // Формирование структуры для XCos
+        __source__ = struct("values", __out__, "time", __time__); // Формирование структуры для XCos
     else
         importXcosDiagram(Programm.Modules.InputSignals.Path + __inputSignal__); // Импорт scs_m
         scs_m.props.tf = __modulationTime__; // Установка времени моделирования
@@ -31,12 +42,9 @@ try
 
         scicos_simulate(scs_m, "nw"); // Моделирование
     end
-catch    
-    messagebox(lasterror(), "Error", "error", ["Ок"], "modal");
-end
 
-// Симуляция модели объекта
-try
+    // Симуляция модели объекта
+
     __objectModel__ = Programm.MainWindow.Popmenus.ObjectModel.String(Programm.MainWindow.Popmenus.ObjectModel.Value);
 
     if (strrchr(__objectModel__, '.') == ".sce") then
@@ -57,7 +65,7 @@ try
 
             // Установка имени переменной, из которой будет взят входной сигнал
             if scs_m.objs(__i__).gui == "FROMWSB" then 
-                scs_m.objs(__i__).model.rpar.objs(1).graphics.exprs = ["__outInputSignal__"; "0"; "1"; "0"];            
+                scs_m.objs(__i__).model.rpar.objs(1).graphics.exprs = ["__source__"; "0"; "1"; "0"];            
                 scs_m.objs(__i__).model.rpar.objs(1).model.ipar = [14; 24; 30; 29; -18; 23; 25; 30; 29; -28; 18; 16; 23; 10; 21; 1; 1; 0];  // Имя переменной кодирется в стронной кодировке: "0123456789 abcdef ABCDEF" = [0;1;2;3;4;5;6;7;8;9; 10;11;12;13;14;15; -10;-11;-12;-13;-14;-15] (пробелы для читаемости)
             end
             
@@ -69,23 +77,19 @@ try
 
         scicos_simulate(scs_m, "nw");
     end
-catch    
-    messagebox(lasterror(), "Error", "error", ["Ок"], "modal");
-end
 
-// Идентификация
+    // Идентификация
 
-__identification__ = Programm.MainWindow.Texts.ModuleName.String;
+    __identification__ = Programm.MainWindow.Texts.ModuleName.String;
 
-if __identification__ == "<не выбранно>" then
-    messagebox("Необходимо выбрать модуль!", "Error!", "error", "modal");
-else 
-    try
+    if __identification__ == "<не выбранно>" then
+        messagebox("Необходимо выбрать модуль!", "Error!", "error", "modal");
+    else 
         if (strrchr(__identification__, '.') == ".sce") then
             exec(Programm.Modules.InputSignals.Path + __inputSignal__); // Выполнение модуля
             outObjectSignal = struct("values", out, "time", __time__); // Формирование структуры для XCos
         else
-            importXcosDiagram(Programm.MainWindow.SelectedModule.Path); // Импорт scs_m
+            importXcosDiagram(Programm.MainWindow.SelectedModule.Path + Programm.MainWindow.SelectedModule.Name); // Импорт scs_m
             scs_m.props.tf = __modulationTime__; // Установка времени моделирования
             
             for __i__ = 1 : size(scs_m.objs)
@@ -105,23 +109,8 @@ else
 
             scicos_simulate(scs_m, "nw");
         end
-    catch    
-        messagebox(lasterror(), "Error", "error", ["Ок"], "modal");
-    end
 
-    // Вывод
-
-    try
-        Programm.MainWindow.Frames.PlotFrame.Visible = "on";
-
-        delete(Programm.MainWindow.Frames.PlotFrame.Children);
-        newaxes(Programm.MainWindow.Frames.PlotFrame);
-
-        Programm.MainWindow.Frames.StartSimulation.Enable  = "off";
-        Programm.MainWindow.Frames.NoDataFrame.Visible = "on";
-        Programm.MainWindow.Frames.PlotFrame.Visible = "off";
-
-        __waitbarHandle__ = progressionbar("Выполнение моделирования...");
+        // Вывод
 
         __countParametres__ = 0;
         __parametresNames__ = [];
@@ -161,16 +150,17 @@ else
             __p__.x_label.font_size = 2;
         end
 
+        Programm.MainWindow.Frames.NoDataFrame.Visible = "off";
+        Programm.MainWindow.Frames.PlotFrame.Visible = "on";
+    end
+
         close(__waitbarHandle__);
 
         Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
-        Programm.MainWindow.Frames.NoDataFrame.Visible = "off";
-        Programm.MainWindow.Frames.PlotFrame.Visible = "on";
-    catch    
-        close(__waitbarHandle__);
-        Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
-        messagebox(lasterror(), "Error", "error", ["Ок"], "modal");
-    end
+catch    
+     if isdef("__waitbarHandle__") then close(__waitbarHandle__); end
+     Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
+     ShowLastError();
 end
 
 // Подчищаем за собой
@@ -178,7 +168,6 @@ clear __modulationTime__;
 clear __modulationStep__;
 clear __time__;
 clear __parametresNames__;
-clear __outInputSignal__;
 clear __p__;
 clear __n__;
 clear __m__;
@@ -190,4 +179,5 @@ clear __i__;
 clear __inputSignal__;
 clear __source__;
 clear __obj__;
+clear __out__;
 clear scs_m;

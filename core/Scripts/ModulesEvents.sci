@@ -13,6 +13,12 @@ function RefreshInputSignals()
     else
         set(Programm.MainWindow.Popmenus.SignalType, "Value", 1);
     end
+
+    if Programm.MainWindow.Popmenus.SignalType.Value == 0 then 
+        Programm.MainWindow.Buttons.RemoveInput.Enable = "off";
+    else
+        Programm.MainWindow.Buttons.RemoveInput.Enable = "on";
+    end
 endfunction     
 
 function RefreshObjects()
@@ -29,12 +35,21 @@ function RefreshObjects()
     else
         set(Programm.MainWindow.Popmenus.ObjectModel, "Value", 1);
     end
+
+    if Programm.MainWindow.Popmenus.ObjectModel.Value == 0 then 
+        Programm.MainWindow.Buttons.RemoveObject.Enable = "off";
+    else
+        Programm.MainWindow.Buttons.RemoveObject.Enable = "on";
+    end
 endfunction
 
 function AddModule(popupmenu, path, refreshFunc)
     if popupmenu.String(popupmenu.Value) <> "Добавить..." then return; end
     
-    [newFileName, newFilePath] = uigetfile(["*.sci", "SciNotes Files (*.sci)"; "*.zcos", "XCos Files (*.zcos)"])
+    [newFileName, newFilePath] = uigetfile([
+        "*.sci", "SciNotes Instruction Files (*.sci)"; 
+        "*.sce", "SciNotes Executiable Files (*.sce)"; 
+        "*.zcos", "XCos Files (*.zcos)"])
     
     if newFilePath <> "" then
         if find(newFileName == findfiles(path, "*.zcos")) <> [] then
@@ -49,6 +64,28 @@ function AddModule(popupmenu, path, refreshFunc)
     end
     
     refreshFunc();
+endfunction
+
+function RenameModule(path, name, refreshFunc)    
+    newName = x_dialog('Новое имя файла:', name);
+
+    // Отмена
+    if newName == [] then return; end
+
+    // Ок
+    copyfile(path + name, path + newName);    
+    deletefile(path + name);
+    refreshFunc();
+endfunction
+
+function RemoveModule(popupmenu, path, name, refreshFunc)    
+    ans = messagebox("Вы действительно хотите удалить модуль """ + name + """?", "", "question", ["Да" "Нет"], "modal");
+
+    // Нет
+    if ans == 2 then return; end
+
+    // Да
+    deletefile(path + name);
 endfunction
 
 function OpenModule(path, name)

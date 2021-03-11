@@ -35,6 +35,7 @@ function mwn_b()
     if (Programm.MainWindow.Navigation.CurrentIndex == 1) then
         Programm.MainWindow.Buttons.Backward.Enable = "off";
         Programm.MainWindow.Buttons.RemoveFolder.Enable = "off";
+        Programm.MainWindow.Buttons.RenameModule.Enable = "off";
     end 
 
     Programm.MainWindow.Buttons.Forward.Enable = "on";
@@ -52,6 +53,7 @@ function mwn_f()
 
     Programm.MainWindow.Buttons.Backward.Enable = "on";
     Programm.MainWindow.Buttons.RemoveFolder.Enable = "on";
+    Programm.MainWindow.Buttons.RenameModule.Enable = "on";
 endfunction
 
 function mwn_h()
@@ -82,10 +84,11 @@ function mwn_o(name)
         Programm.MainWindow.Texts.ModuleName.String = name;
         Programm.MainWindow.SelectedModule.Name = name;
         Programm.MainWindow.SelectedModule.Path = ..
-            Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex) + name;
+            Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex);
 
         Programm.MainWindow.Buttons.ObjectModel.Enable = "on";
         Programm.MainWindow.Buttons.RemoveModule.Enable = "on";
+        Programm.MainWindow.Buttons.RenameModule.Enable = "on";
     else
         // Вставка нового пути в конец списка
 
@@ -112,6 +115,7 @@ function mwn_o(name)
         Programm.MainWindow.Buttons.Forward.Enable = "off";
         Programm.MainWindow.Buttons.Backward.Enable = "on";
         Programm.MainWindow.Buttons.RemoveFolder.Enable = "on";
+        Programm.MainWindow.Buttons.RenameModule.Enable = "on";
     end
 endfunction
 
@@ -174,6 +178,25 @@ function mwn_addModule()
     SetModulesList(path);
 endfunction
 
+function mwn_renameModule()
+    global Programm;
+
+    newName = x_dialog('Новое имя файла:', Programm.MainWindow.SelectedModule.Name);
+
+    // Отмена
+    if newName == [] then return; end
+
+    // Ок       
+    copyfile(Programm.MainWindow.SelectedModule.Path + Programm.MainWindow.SelectedModule.Name, ..
+        Programm.MainWindow.SelectedModule.Path + newName);
+    deletefile(Programm.MainWindow.SelectedModule.Path + Programm.MainWindow.SelectedModule.Name);
+
+    Programm.MainWindow.Texts.ModuleName.String = newName;
+    Programm.MainWindow.SelectedModule.Name = newName;
+    
+    SetModulesList(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex));
+endfunction
+
 function mwn_removeModule()
     global Programm;
 
@@ -186,7 +209,7 @@ function mwn_removeModule()
     if ans == 2 then return; end
 
     // Да
-    deletefile(Programm.MainWindow.SelectedModule.Path);
+    deletefile(Programm.MainWindow.SelectedModule.Path + Programm.MainWindow.SelectedModule.Name);
 
     Programm.MainWindow.Texts.ModuleName.String = "<не выбранно>";
     Programm.MainWindow.SelectedModule.Name = "<не выбранно>";
@@ -194,6 +217,7 @@ function mwn_removeModule()
 
     Programm.MainWindow.Buttons.ObjectModel.Enable = "off";
     Programm.MainWindow.Buttons.RemoveModule.Enable = "off";
+    Programm.MainWindow.Buttons.RenameModule.Enable = "on";
     
     SetModulesList(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex));
 endfunction

@@ -1,5 +1,5 @@
-out = [];
+__out__ = [];
 
-for i = 0 : MODULATION_STEP : MODULATION_TIME
-    out = [out rand()];
+for i = __modulationStep__ : __modulationStep__ : __modulationTime__
+    __out__ = [__out__; rand()];
 end

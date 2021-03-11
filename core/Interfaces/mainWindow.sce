@@ -38,7 +38,7 @@ Programm.MainWindow.Frames.Left = uicontrol(Programm.MainWindow.Window, ..
     "style", "frame", ..
     "layout", "gridbag", ..
     "margin", [5 5 5 0], ..
-    "constraints", createConstraints("gridbag", [1 1 1 1], [-1 1], "vertical", "center", [-1 -1], [300 1]));
+    "constraints", createConstraints("gridbag", [1 1 1 1], [-1 1], "vertical", "center", [-1 -1], [343 1]));
 
 // -------- Входной сигнал -------- //
 
@@ -69,10 +69,25 @@ Programm.MainWindow.Popmenus.SignalType = uicontrol(Programm.MainWindow.Frames.S
         
 uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
     "style", "pushbutton", ..
-    "tag", "signalParametres", ..
     "callback", "OpenModule(Programm.Modules.InputSignals.Path, Programm.MainWindow.Popmenus.SignalType.String(Programm.MainWindow.Popmenus.SignalType.Value))", ..
-    "icon", "document-open-sci", ..
+    "icon", Programm.Path + "images\open-file.png", ..
+    "TooltipString", "Открыть", ..
     "position", [260 24 22 22]);
+
+Programm.MainWindow.Buttons.RenameInput = [];
+Programm.MainWindow.Buttons.RenameInput = uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
+    "style", "pushbutton", ..
+    "callback", "RenameModule(Programm.Modules.InputSignals.Path, Programm.MainWindow.Popmenus.SignalType.String(Programm.MainWindow.Popmenus.SignalType.Value), RefreshInputSignals)", ..
+    "icon", Programm.Path + "images\edit-file.png", ..
+    "TooltipString", "Переименовать", ..
+    "position", [283 24 22 22]);
+
+Programm.MainWindow.Buttons.RemoveInput = uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
+    "style", "pushbutton", ..
+    "callback", "RemoveModule(Programm.MainWindow.Popmenus.SignalType, Programm.Modules.InputSignals.Path, Programm.MainWindow.Popmenus.SignalType.String(Programm.MainWindow.Popmenus.SignalType.Value), RefreshInputSignals)", ..
+    "icon", Programm.Path + "images\remove-file.png", ..
+    "TooltipString", "Удалить", ..
+    "position", [306 24 22 22]);
 
 Programm.MainWindow.Checkboxes.ShowSource = [];
 Programm.MainWindow.Checkboxes.ShowSource = uicontrol(Programm.MainWindow.Frames.SignalParametres, ..
@@ -112,10 +127,24 @@ Programm.MainWindow.Popmenus.ObjectModel = uicontrol(Programm.MainWindow.Frames.
         
 uicontrol(Programm.MainWindow.Frames.ObjectModelParametres, ..
     "style", "pushbutton", ..
-    "tag", "signalParametres", ..
     "callback", "OpenModule(Programm.Modules.Objects.Path, Programm.MainWindow.Popmenus.ObjectModel.String(Programm.MainWindow.Popmenus.ObjectModel.Value))", ..
-    "icon", "document-open-sci", ..
+    "icon", Programm.Path + "images\open-file.png", ..
+    "TooltipString", "Открыть", ..
     "position", [260 24 22 22]);
+
+Programm.MainWindow.Buttons.RenameObject = uicontrol(Programm.MainWindow.Frames.ObjectModelParametres, ..
+    "style", "pushbutton", ..    
+    "callback", "RenameModule(Programm.Modules.Objects.Path, Programm.MainWindow.Popmenus.ObjectModel.String(Programm.MainWindow.Popmenus.ObjectModel.Value), RefreshObjects)", ..
+    "icon", Programm.Path + "images\edit-file.png", ..
+    "TooltipString", "Переименовать", ..
+    "position", [283 24 22 22]);
+
+Programm.MainWindow.Buttons.RemoveObject = uicontrol(Programm.MainWindow.Frames.ObjectModelParametres, ..
+    "style", "pushbutton", ..    
+    "callback", "RemoveModule(Programm.MainWindow.Popmenus.ObjectModel, Programm.Modules.Objects.Path, Programm.MainWindow.Popmenus.ObjectModel.String(Programm.MainWindow.Popmenus.ObjectModel.Value), RefreshObjects)", ..
+    "icon", Programm.Path + "images\remove-file.png", ..
+    "TooltipString", "Удалить", ..
+    "position", [306 24 22 22]);
 
 Programm.MainWindow.Checkboxes.ShowObj = uicontrol(Programm.MainWindow.Frames.ObjectModelParametres, ..
     "style", "checkbox", ..
@@ -150,62 +179,67 @@ Programm.MainWindow.Texts.ModuleName = uicontrol(Programm.MainWindow.Frames.Sele
     "string", Programm.MainWindow.SelectedModule.Name, ..
     "position", [95 0 165 20]);
 
-Programm.MainWindow.Buttons.ObjectModel = [];
 Programm.MainWindow.Buttons.ObjectModel = uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
-    "style", "pushbutton", ..
-    "tag", "signalParametres", ..
     "callback", "OpenModule(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex), Programm.MainWindow.Texts.ModuleName.String)", ..
-    "icon", "document-open-sci", ..
     "enable", "off", ..
+    "icon", Programm.Path + "images\open-file.png", ..
+    "TooltipString", "Открыть", ..
     "position", [260 -1 22 22]);
+
+Programm.MainWindow.Buttons.RenameModule = uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
+    "callback", "mwn_renameModule", ..
+    "enable", "off", ..
+    "icon", Programm.Path + "images\edit-file.png", ..
+    "TooltipString", "Переименовать", ..
+    "position", [283 -1 22 22]);
+
+Programm.MainWindow.Buttons.RemoveModule = uicontrol(Programm.MainWindow.Frames.SelectedModule, ..
+    "callback", "mwn_removeModule", ..
+    "enable", "off", ..
+    "icon", Programm.Path + "images\remove-file.png", ..
+    "TooltipString", "Удалить", ..
+    "position", [306 -1 22 22]);
 
 Programm.MainWindow.Frames.SelectModuleNavigationButtons = uicontrol(Programm.MainWindow.Frames.SelectModule, ..
     "style", "frame", ..
     "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 60]));
     
 Programm.MainWindow.Buttons.Backward = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
-    "icon", "go-previous", ..
     "callback", "mwn_b", ..
     "enable", "off", ..
+    "icon", Programm.Path + "images\backward.png", ..
     "position", [5 25 30 30]);
 
 Programm.MainWindow.Buttons.Forward = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
-    "icon", "go-next", ..
     "callback", "mwn_f", ..
     "enable", "off", ..
-    "position", [40 25 30 30]);
+    "icon", Programm.Path + "images\forward.png", ..
+    "position", [38 25 30 30]);
     
 Programm.MainWindow.Buttons.Home = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
-    "icon", "user-home", ..
     "callback", "mwn_h", ..
     "enable", "off", ..
-    "position", [75 25 30 30]);
+    "icon", Programm.Path + "images\home-folder.png", ..
+    "position", [71 25 30 30]);
 
 Programm.MainWindow.Buttons.RemoveFolder = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", Programm.Path + "images\remove-folder.png", ..
     "callback", "mwn_rmvFldr", ..
     "TooltipString", "Удалить текущую папку", ..
     "enable", "off", ..
-    "position", [147 25 30 30]);
+    "position", [232 25 30 30]);
 
 Programm.MainWindow.Buttons.AddFolder = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", Programm.Path + "images\add-folder.png", ..
     "callback", "mwn_crtFldr", ..
     "TooltipString", "Создать папку", ..
-    "position", [182 25 30 30]);
-
-Programm.MainWindow.Buttons.RemoveModule = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
-    "icon", Programm.Path + "images\remove-file.png", ..
-    "callback", "mwn_removeModule", ..
-    "TooltipString", "Удалить выбранный модуль", ..
-    "enable", "off", ..
-    "position", [217 25 30 30]);
+    "position", [265 25 30 30]);
 
 Programm.MainWindow.Buttons.AddNewModule = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "icon", Programm.Path + "images\add-file.png", ..
     "callback", "mwn_addModule", ..
     "TooltipString", "Добавить модуль", ..
-    "position", [252 25 30 30]);
+    "position", [298 25 30 30]);
 
 Programm.MainWindow.Texts.CurrentPath = uicontrol(Programm.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "style", "text", ..
@@ -216,7 +250,6 @@ Programm.MainWindow.Listboxes.SelectModuleListbox = uicontrol(Programm.MainWindo
     "style", "listbox", ..
     "Margins", [0 5 5 5], ..
     "callback", "mwn_o(Programm.MainWindow.Listboxes.SelectModuleListbox.String(Programm.MainWindow.Listboxes.SelectModuleListbox.Value + size(Programm.MainWindow.Listboxes.SelectModuleListbox.String, ""r"")))", ..
-    ..//"callback", "mwn_o(Programm.MainWindow.Listboxes.SelectModuleListbox.String(Programm.MainWindow.Listboxes.SelectModuleListbox.Value))", ..  // Hard Exception
     "constraints", createConstraints("gridbag", [1 3 1 1], [1 1], "both"));
 
 //-------- Время моделирования --------//
@@ -253,7 +286,7 @@ Programm.MainWindow.Texts.ModulationStep = uicontrol(Programm.MainWindow.Frames.
 
 uicontrol(Programm.MainWindow.Frames.Left, ..
     "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 7 1 1], [1 1], "both"));
+    "constraints", createConstraints("gridbag", [1 7 1 1], [1 0], "both", "center", [-1 -1], [0 50]));
     
 //-------- Пуск --------//
 
