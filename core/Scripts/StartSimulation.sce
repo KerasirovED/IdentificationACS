@@ -1,7 +1,7 @@
 Programm.MainWindow.Frames.PlotFrame.Visible = "on";
 
 delete(Programm.MainWindow.Frames.PlotFrame.Children);
-newaxes(Programm.MainWindow.Frames.PlotFrame);
+__graphics__ = newaxes(Programm.MainWindow.Frames.PlotFrame);
 
 Programm.MainWindow.Frames.StartSimulation.Enable  = "off";
 Programm.MainWindow.Frames.NoDataFrame.Visible = "on";
@@ -15,7 +15,7 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
                                                                                 // ' — транспонирование матрицы (массив времени — столбец)
 
 // Симуляция входного сигнала
-try
+// try
     __inputSignal__ = Programm.MainWindow.Popmenus.SignalType.String(Programm.MainWindow.Popmenus.SignalType.Value);
 
     if (strrchr(__inputSignal__, '.') == ".sce") then
@@ -86,8 +86,10 @@ try
         messagebox("Необходимо выбрать модуль!", "Error!", "error", "modal");
     else 
         if (strrchr(__identification__, '.') == ".sce") then
-            exec(Programm.Modules.InputSignals.Path + __inputSignal__); // Выполнение модуля
-            outObjectSignal = struct("values", out, "time", __time__); // Формирование структуры для XCos
+            exec(Programm.MainWindow.SelectedModule.Path + __identification__); // Выполнение модуля
+
+            Programm.MainWindow.Frames.NoDataFrame.Visible = "off";
+            Programm.MainWindow.Frames.PlotFrame.Visible = "on";
         else
             importXcosDiagram(Programm.MainWindow.SelectedModule.Path + Programm.MainWindow.SelectedModule.Name); // Импорт scs_m
             scs_m.props.tf = __modulationTime__; // Установка времени моделирования
@@ -108,60 +110,60 @@ try
             end
 
             scicos_simulate(scs_m, "nw");
-        end
 
-        // Вывод
+            // Вывод
 
-        __countParametres__ = 0;
-        __parametresNames__ = [];
+            __countParametres__ = 0;
+            __parametresNames__ = [];
 
-        if Programm.MainWindow.Checkboxes.ShowSource.Value == 1 then
-            __countParametres__ = __countParametres__ + 1;
-            __parametresNames__ = [__parametresNames__ "__source__"];
-        end
-
-        if Programm.MainWindow.Checkboxes.ShowObj.Value == 1 then
-            __countParametres__ = __countParametres__ + 1;
-            __parametresNames__ = [__parametresNames__ "__obj__"];
-        end
-        
-        for __i__ = 1 : size(scs_m.objs)
-            if typeof(scs_m.objs(__i__)) <> "Block" then continue end
-        
-            // Установка имени переменной, в которую будет помещен результат
-            if scs_m.objs(__i__).gui == "TOWS_c" then 
+            if Programm.MainWindow.Checkboxes.ShowSource.Value == 1 then
                 __countParametres__ = __countParametres__ + 1;
-                __parametresNames__ = [__parametresNames__ scs_m.objs(__i__).graphics.exprs(2)];
+                __parametresNames__ = [__parametresNames__ "__source__"];
             end
-        end
-        
-        [__m__, __n__] = GetSubplotMN(__countParametres__);
-        
-        for __i__ = 1 : __countParametres__
-            subplot(__m__, __n__, __i__);
-            execstr("plot2d(__time__, " + __parametresNames__(__i__) + ".values);"); // Отображаем параметры
-        
-            __p__ = gca();
-            __p__.grid = [color(128, 128, 128) color(128, 128, 128)];
-            __p__.children(1).children(1).thickness = 2;
-            __p__.y_label.text = __parametresNames__(__i__);
-            __p__.y_label.font_size = 2;
-            __p__.x_label.text = "t";
-            __p__.x_label.font_size = 2;
-        end
 
-        Programm.MainWindow.Frames.NoDataFrame.Visible = "off";
-        Programm.MainWindow.Frames.PlotFrame.Visible = "on";
+            if Programm.MainWindow.Checkboxes.ShowObj.Value == 1 then
+                __countParametres__ = __countParametres__ + 1;
+                __parametresNames__ = [__parametresNames__ "__obj__"];
+            end
+            
+            for __i__ = 1 : size(scs_m.objs)
+                if typeof(scs_m.objs(__i__)) <> "Block" then continue end
+            
+                // Установка имени переменной, в которую будет помещен результат
+                if scs_m.objs(__i__).gui == "TOWS_c" then 
+                    __countParametres__ = __countParametres__ + 1;
+                    __parametresNames__ = [__parametresNames__ scs_m.objs(__i__).graphics.exprs(2)];
+                end
+            end
+            
+            [__m__, __n__] = GetSubplotMN(__countParametres__);
+            
+            for __i__ = 1 : __countParametres__
+                subplot(__m__, __n__, __i__);
+                execstr("plot2d(__time__, " + __parametresNames__(__i__) + ".values);"); // Отображаем параметры
+            
+                __p__ = gca();
+                __p__.grid = [color(128, 128, 128) color(128, 128, 128)];
+                __p__.children(1).children(1).thickness = 2;
+                __p__.y_label.text = __parametresNames__(__i__);
+                __p__.y_label.font_size = 2;
+                __p__.x_label.text = "t";
+                __p__.x_label.font_size = 2;
+            end
+
+            Programm.MainWindow.Frames.NoDataFrame.Visible = "off";
+            Programm.MainWindow.Frames.PlotFrame.Visible = "on";
+            
+        end
     end
-
         close(__waitbarHandle__);
 
         Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
-catch    
-     if isdef("__waitbarHandle__") then close(__waitbarHandle__); end
-     Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
-     ShowLastError();
-end
+// catch    
+//      if isdef("__waitbarHandle__") then close(__waitbarHandle__); end
+//      Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
+//      ShowLastError();
+// end
 
 // Подчищаем за собой
 clear __modulationTime__;

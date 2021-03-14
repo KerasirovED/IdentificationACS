@@ -163,7 +163,7 @@ function mwn_addModule()
 
     path = Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex);
 
-    [newFileName, newFilePath] = uigetfile(["*.sci", "SciNotes Files (*.sci)"; "*.zcos", "XCos Files (*.zcos)"])
+    [newFileName, newFilePath] = uigetfile(["*.sce", "SciNotes Execution Files (*.sce)"; "*.zcos", "XCos Files (*.zcos)"])
 
     if newFilePath <> "" then
         if find(newFileName == findfiles(path, "*.zcos")) <> [] then

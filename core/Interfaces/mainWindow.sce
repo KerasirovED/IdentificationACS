@@ -268,7 +268,7 @@ uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
 Programm.MainWindow.Texts.ModulationTime = uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
     "style", "edit", ..
     "string", "10", ..
-    "position", [130 5 155 20]);
+    "position", [130 5 196 20]);
 
 //-------- Шаг моделирования --------//
     
@@ -280,7 +280,7 @@ uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
 Programm.MainWindow.Texts.ModulationStep = uicontrol(Programm.MainWindow.Frames.ModulationSettings, ..
     "style", "edit", ..
     "string", "0.1", ..
-    "position", [130 30 155 20]);
+    "position", [130 30 196 20]);
 
 //-------- Растягивающийся frame--------//
 
@@ -299,7 +299,6 @@ Programm.MainWindow.Frames.StartSimulation = uicontrol(Programm.MainWindow.Frame
 Programm.MainWindow.Buttons.Start = uicontrol(Programm.MainWindow.Frames.StartSimulation, ..
     "style", "pushbutton", ..
     "string", "Пуск", ..
-    ..//"callback", "StartSimulation", ..
     "callback", "exec(Programm.Path + ""Scripts\StartSimulation.sce"")", ..
     "constraints", createConstraints("gridbag", [1 1 1 1], [1 1], "both"));
 

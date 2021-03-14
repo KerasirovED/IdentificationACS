@@ -88,7 +88,10 @@ waitbarHandle = progressionbar(["Выполняется запуск прогр�
         getd(Programm.Path + "help\Programm\How to use programm\");
 
         // Отрисовка интерфейса
-        exec(Programm.Path + "interfaces\mainWindow.sce");    
+        exec(Programm.Path + "interfaces\mainWindow.sce");
+
+        // Переменная графической области
+        __graphics__ = [];
     // catch
     //     [error_message,error_number, line, func]=lasterror(%f);
     //     messagebox(["Error " + string(error_number); error_message;
