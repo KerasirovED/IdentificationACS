@@ -162,4 +162,4 @@ da.y_label.text="";
 
 
 
-clear s, ko, km, to, tm, do1, dt, tk, yo, ym, dy, ss0, da
+clear s km tm dt tk yo ym dy ss0 da ttt zt zn sn z jj jjm j ss1 ssm y x N eps1 dp1 np t T1 T2 i k T 

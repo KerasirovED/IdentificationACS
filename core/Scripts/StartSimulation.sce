@@ -15,7 +15,7 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
                                                                                 // ' — транспонирование матрицы (массив времени — столбец)
 
 // Симуляция входного сигнала
-// try
+//try
     __inputSignal__ = Programm.MainWindow.Popmenus.SignalType.String(Programm.MainWindow.Popmenus.SignalType.Value);
 
     if (strrchr(__inputSignal__, '.') == ".sce") then
@@ -159,11 +159,11 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
         close(__waitbarHandle__);
 
         Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
-// catch    
-//      if isdef("__waitbarHandle__") then close(__waitbarHandle__); end
-//      Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
-//      ShowLastError();
-// end
+//catch    
+//     if isdef("__waitbarHandle__") then close(__waitbarHandle__); end
+//     Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
+//     ShowLastError();
+//end
 
 // Подчищаем за собой
 clear __modulationTime__;
@@ -182,4 +182,5 @@ clear __inputSignal__;
 clear __source__;
 clear __obj__;
 clear __out__;
+clear __graphics__;
 clear scs_m;
