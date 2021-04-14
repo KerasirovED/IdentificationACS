@@ -48,8 +48,8 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
     __objectModel__ = Programm.MainWindow.Popmenus.ObjectModel.String(Programm.MainWindow.Popmenus.ObjectModel.Value);
 
     if (strrchr(__objectModel__, '.') == ".sce") then
-        exec(Programm.Modules.InputSignals.Path + __inputSignal__); // Выполнение модуля
-        outObjectSignal = struct("values", out, "__time__", __time__); // Формирование структуры для XCos
+        exec(Programm.Modules.Objects.Path + __objectModel__); // Выполнение модуля
+        __obj__ = struct("values", __out__, "time", __time__); // Формирование структуры для XCos
     else
         importXcosDiagram(Programm.Modules.Objects.Path + __objectModel__); // Импорт scs_m
         scs_m.props.tf = __modulationTime__; // Установка времени моделирования

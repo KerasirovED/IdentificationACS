@@ -14,7 +14,7 @@ function SetModulesList(path)
 
     for i = 1 : size(dirInfo.name, "r") // кол-во строк в векторе
         if (dirInfo.isdir(i) == %f) then
-            if strrchr(dirInfo.name, '.') <> ".sci" & strrchr(dirInfo.name, '.') <> ".zcos" then continue; end
+            if strrchr(dirInfo.name, '.') <> ".sce" & strrchr(dirInfo.name, '.') <> ".zcos" then continue; end
 
             Programm.MainWindow.Listboxes.SelectModuleListbox.String = [
                 Programm.MainWindow.Listboxes.SelectModuleListbox.String;
