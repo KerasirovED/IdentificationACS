@@ -4,91 +4,89 @@ warning("off");
 waitbarHandle = progressionbar(["Выполняется запуск программы."; "Ожидайте..."]);
 
 // if isdef("Programm") then
-//     show_window(Programm.MainWindow.Window);
+//     show_window(IdentificationACS.MainWindow.Window);
 // else
     // try
         // Переменная состояний программы
-        global Programm;
+        global IdentificationACS;
+        IdentificationACS = [];
 
-        Programm = [];
-        Programm.Path = get_absolute_file_path("init.sce"); // Относительный путь
-        Programm.Version = "alpha 0";
+        // Абсолютный путь до папки с программным комплексом
+        IdentificationACS.Path = get_absolute_file_path("init.sce");
+        // Название программного комплекса
+        IdentificationACS.ProgramName = "Программный комплекс идентификации САУ"; 
+        // Версия программного комплекса
+        IdentificationACS.Version = "alpha 0";
 
-        Programm.MainWindow = [];
-        Programm.MainWindow.Window = [];
-        Programm.MainWindow.Frames = [];
-        Programm.MainWindow.Popmenus = [];
-        Programm.MainWindow.Listboxes = [];
-        Programm.MainWindow.Buttons = [];
-        Programm.MainWindow.Texts = [];
-        Programm.MainWindow.Checkboxes = [];
+        // Информация основного окна программного комплекса
+        IdentificationACS.MainWindow = [];
 
-        Programm.MainWindow.Navigation = [];
-        Programm.MainWindow.Navigation.FolderNames = list("");
-        Programm.MainWindow.Navigation.FullPaths = list(Programm.Path + "modules\Identification\");
-        Programm.MainWindow.Navigation.RelativePaths = list("\");
-        Programm.MainWindow.Navigation.CurrentIndex = 1;
+// Указатель на основное окно программного комплекса
+IdentificationACS.MainWindow.Window = [];
+// Указатели на uicontrol'ы типа frame
+IdentificationACS.MainWindow.Frames = [];
+// Указатели на uicontrol'ы типа popupmenu
+IdentificationACS.MainWindow.Popmenus = [];
+// Указатели на uicontrol'ы типа listbox
+IdentificationACS.MainWindow.Listboxes = [];
+// Указатели на uicontrol'ы типа button
+IdentificationACS.MainWindow.Buttons = [];
+// Указатели на uicontrol'ы типа text
+IdentificationACS.MainWindow.Texts = [];
+// Указатели на uicontrol'ы типа checkbox
+IdentificationACS.MainWindow.Checkboxes = [];
 
-        Programm.MainWindow.SelectedModule = [];
-        Programm.MainWindow.SelectedModule.Name = "<не выбранно>";
-        Programm.MainWindow.SelectedModule.Path = "";
+// Переменные навигации по файловой структуре модулей идентификации САУ
+IdentificationACS.MainWindow.Navigation = [];
+// Имена папок, которые открывал пользователь
+IdentificationACS.MainWindow.Navigation.FolderNames = list("");
+// Абсолютные пути к папкам, которые открывал пользователь
+IdentificationACS.MainWindow.Navigation.FullPaths = list(IdentificationACS.Path + "modules\Identification\");
+// Отночительные пути к папкам, которые открывал пользователь
+IdentificationACS.MainWindow.Navigation.RelativePaths = list("\");
+// Текущий индекс в списках, на котором сейчас находится пользователь
+IdentificationACS.MainWindow.Navigation.CurrentIndex = 1;
 
-        Programm.Diagrams = [];
-        Programm.Diagrams.Main = [];
-        Programm.Diagrams.InputSignal = [];
-        Programm.Diagrams.Object = [];
-        Programm.Diagrams.Identification = [];
+// Информация о текущем выбранном модуле идентификации САУ
+IdentificationACS.MainWindow.SelectedModule = [];
+// Имя модуля
+IdentificationACS.MainWindow.SelectedModule.Name = "<не выбранно>";
+// Абсолютный путь к модулю
+IdentificationACS.MainWindow.SelectedModule.Path = "";
 
-        Programm.Help = [];
+        IdentificationACS.Modules = [];
+        IdentificationACS.Modules.InputSignals = [];
+        IdentificationACS.Modules.InputSignals.Path = IdentificationACS.Path + "modules\InputSignals\";
+        IdentificationACS.Modules.InputSignals.List = "";
 
-        Programm.Model = [];
-        Programm.Model.Aperiodic1 = ["1" "0.1"];
-        Programm.Model.Aperiodic2 = ["1" "0.1" "0.01"];
+        IdentificationACS.Modules.Objects = [];
+        IdentificationACS.Modules.Objects.Path = IdentificationACS.Path + "modules\Objects\";
+        IdentificationACS.Modules.Objects.List = "";
 
-        Programm.Filter = [];
-        Programm.Filter.First = ["1" "-1"];
-        Programm.Filter.Second = ["1" "-1" "-10"];
+        IdentificationACS.Modules.Indetification = [];
+        IdentificationACS.Modules.Indetification.Path = IdentificationACS.Path + "modules\Identification\";
+        IdentificationACS.Modules.Indetification.List = "";
 
-        Programm.LastModulation = [];
+        IdentificationACS.Help = [];
 
-        Programm.LastModulation.SignalType = [];
-        Programm.LastModulation.SignalType.Name = [];
-        Programm.LastModulation.SignalType.Parametres = ["Время возникновения = 1"; "Начальное значение = 0"; "Итоговое значение = 1"];
-
-        Programm.LastModulation.ObjectModel = [];
-        Programm.LastModulation.ObjectModel.Name = [];
-        Programm.LastModulation.ObjectModel.Parametres = ["Коэффициент усиления = 1"; "Постоянная времени = 0.1"];
-
-        Programm.LastModulation.FilterOrder = [];
-        Programm.LastModulation.FilterOrder.Name = [];
-        Programm.LastModulation.FilterOrder.Parametres = ["Коэффициент усиления = 1"; "Постоянная времени = -1"];
-
-        Programm.Modules = [];
-        Programm.Modules.InputSignals = [];
-        Programm.Modules.InputSignals.Path = Programm.Path + "modules\InputSignals\";
-        Programm.Modules.InputSignals.List = "";
-
-        Programm.Modules.Objects = [];
-        Programm.Modules.Objects.Path = Programm.Path + "modules\Objects\";
-        Programm.Modules.Objects.List = "";
-
-        Programm.Modules.Indetification = [];
-        Programm.Modules.Indetification.Path = Programm.Path + "modules\Identification\";
-        Programm.Modules.Indetification.List = "";
+        IdentificationACS.LastModulation = [];
+        IdentificationACS.LastModulation.SourceName = [];
+        IdentificationACS.LastModulation.ObjectName = [];
+        IdentificationACS.LastModulation.IdentificationName = [];
 
         // load the blocks library and the simulation engine
         loadXcosLibs(); 
         loadScicos();
 
         // Импорт *.sci файлов
-        getd(Programm.Path + "Scripts\");
-        getd(Programm.Path + "help\");
-        getd(Programm.Path + "help\Programm\How to save open XCos\");
-        getd(Programm.Path + "help\Programm\How to save results\");
-        getd(Programm.Path + "help\Programm\How to use programm\");
+        getd(IdentificationACS.Path + "Scripts\");
+        getd(IdentificationACS.Path + "help\");
+        getd(IdentificationACS.Path + "help\Programm\How to save open XCos\");
+        getd(IdentificationACS.Path + "help\Programm\How to save results\");
+        getd(IdentificationACS.Path + "help\Programm\How to use programm\");
 
         // Отрисовка интерфейса
-        exec(Programm.Path + "interfaces\mainWindow.sce");
+        exec(IdentificationACS.Path + "interfaces\mainWindow.sce");
 
         // Переменная графической области
         __graphics__ = [];

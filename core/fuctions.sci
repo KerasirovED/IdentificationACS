@@ -1,6 +1,6 @@
 function Set_Xcos_parametres(plot_frame)
 //try    
-    global Programm
+    global IdentificationACS
     
     set(plot_frame, "visible", "on")
     
@@ -15,13 +15,13 @@ function Set_Xcos_parametres(plot_frame)
     
     exec(programmPath + "LoadDiagrams.sce");
         
-    inputSignal = Programm.Diagrams.InputSignal.objs
-    object = Programm.Diagrams.Object.objs
-    identification = Programm.Diagrams.Identification.objs
+    inputSignal = IdentificationACS.Diagrams.InputSignal.objs
+    object = IdentificationACS.Diagrams.Object.objs
+    identification = IdentificationACS.Diagrams.Identification.objs
     
-    Programm.Diagrams.Main.objs(2).model.rpar.objs  = identification // identification
-    Programm.Diagrams.Main.objs(3).model.rpar.objs = inputSignal     // inputSignal
-    Programm.Diagrams.Main.objs(4).model.rpar.objs = object          // object
+    IdentificationACS.Diagrams.Main.objs(2).model.rpar.objs  = identification // identification
+    IdentificationACS.Diagrams.Main.objs(3).model.rpar.objs = inputSignal     // inputSignal
+    IdentificationACS.Diagrams.Main.objs(4).model.rpar.objs = object          // object
     
     countOutputPorts = 0
     for i = 1 : length(identification)        
@@ -42,24 +42,24 @@ function Set_Xcos_parametres(plot_frame)
         outtyp = [outtyp -1]
     end   
     
-    Programm.Diagrams.Main.objs(2).model.out = out
-    Programm.Diagrams.Main.objs(2).model.out2 = out2
-    Programm.Diagrams.Main.objs(2).model.outtyp = outtyp
+    IdentificationACS.Diagrams.Main.objs(2).model.out = out
+    IdentificationACS.Diagrams.Main.objs(2).model.out2 = out2
+    IdentificationACS.Diagrams.Main.objs(2).model.outtyp = outtyp
     
      clkSplit = CLKSPLIT_f("define");
      clkSplit.model.evtin = -1;
      clkSplit.model.evtout = out;         
      clkSplit.model.firing = out;
      
-    Programm.Diagrams.Main.objs($+1) = clkSplit
-    splitNumber = length(Programm.Diagrams.Main.objs)
+    IdentificationACS.Diagrams.Main.objs($+1) = clkSplit
+    splitNumber = length(IdentificationACS.Diagrams.Main.objs)
         
     linkFromClkToSplit = scicos_link("define");
     linkFromClkToSplit.from = [1 1 0]
     linkFromClkToSplit.to = [splitNumber 1 1]
     linkFromClkToSplit.ct = [5 -1]
     
-    Programm.Diagrams.Main.objs($+1) = linkFromClkToSplit
+    IdentificationACS.Diagrams.Main.objs($+1) = linkFromClkToSplit
         
     linkFromSplitToOut = scicos_link("define");
     linkFromSplitToOut.from = [splitNumber 0 0]
@@ -73,16 +73,16 @@ function Set_Xcos_parametres(plot_frame)
     linkFromIndetificationToOut.to = [0 1 1]
     
     for i = 1 : countOutputPorts
-        Programm.Diagrams.Main.objs($+1) = out
+        IdentificationACS.Diagrams.Main.objs($+1) = out
         
         linkFromSplitToOut.from(2) = i // Порт из Split откуда выходит сигнал от CLK
-        linkFromSplitToOut.to(1) = length(Programm.Diagrams.Main.objs) // Номер блока куда заходит сигнал от CLK
+        linkFromSplitToOut.to(1) = length(IdentificationACS.Diagrams.Main.objs) // Номер блока куда заходит сигнал от CLK
             
         linkFromIndetificationToOut.from(2) = i
-        linkFromIndetificationToOut.to(1) = length(Programm.Diagrams.Main.objs)
+        linkFromIndetificationToOut.to(1) = length(IdentificationACS.Diagrams.Main.objs)
         
-        Programm.Diagrams.Main.objs($+1) = linkFromSplitToOut
-        Programm.Diagrams.Main.objs($+1) = linkFromIndetificationToOut
+        IdentificationACS.Diagrams.Main.objs($+1) = linkFromSplitToOut
+        IdentificationACS.Diagrams.Main.objs($+1) = linkFromIndetificationToOut
     end
     
 //     xcos(inputSignal)
@@ -159,72 +159,72 @@ function Set_Xcos_parametres(plot_frame)
 //        p.X_label.font_size = 2
 //    end    
 //    
-//    Programm.LastModulation.SignalType.Name = signalType.String(signalType.Value)
+//    IdentificationACS.LastModulation.SignalType.Name = signalType.String(signalType.Value)
 //    
 //    if signalType.Value == 1 then
-//        Programm.LastModulation.SignalType.Parametres = [
-//            "Время возникновения: " + string(Programm.scs_m.objs(21).model.rpar.objs(1).graphics.exprs(1)); 
-//            "Начальное значение: " + string(Programm.scs_m.objs(21).model.rpar.objs(1).graphics.exprs(2)); 
-//            "Итоговое значение: " + string(Programm.scs_m.objs(21).model.rpar.objs(1).graphics.exprs(3))]
+//        IdentificationACS.LastModulation.SignalType.Parametres = [
+//            "Время возникновения: " + string(IdentificationACS.scs_m.objs(21).model.rpar.objs(1).graphics.exprs(1)); 
+//            "Начальное значение: " + string(IdentificationACS.scs_m.objs(21).model.rpar.objs(1).graphics.exprs(2)); 
+//            "Итоговое значение: " + string(IdentificationACS.scs_m.objs(21).model.rpar.objs(1).graphics.exprs(3))]
 //    end
 //    
 //    if signalType.Value == 2 then
-//        Programm.LastModulation.SignalType.Parametres = [
-//            "Амплитуда: " + string(Programm.scs_m.objs(22).graphics.exprs(1)); 
-//            "Частота (рад/с): " + string(Programm.scs_m.objs(22).graphics.exprs(2)); 
-//            "Фаза (рад): " + string(Programm.scs_m.objs(22).graphics.exprs(3))]
+//        IdentificationACS.LastModulation.SignalType.Parametres = [
+//            "Амплитуда: " + string(IdentificationACS.scs_m.objs(22).graphics.exprs(1)); 
+//            "Частота (рад/с): " + string(IdentificationACS.scs_m.objs(22).graphics.exprs(2)); 
+//            "Фаза (рад): " + string(IdentificationACS.scs_m.objs(22).graphics.exprs(3))]
 //    end
 //    
 //    if signalType.Value == 3 then
-//        Programm.LastModulation.SignalType.Parametres = [
-//            "Задержка по фазе (с): " + string(Programm.scs_m.objs(23).graphics.exprs(1)); 
-//            "Длительность импульса (%): " + string(Programm.scs_m.objs(23).graphics.exprs(2)); 
-//            "Период (с): " + string(Programm.scs_m.objs(23).graphics.exprs(3)); 
-//            "Амлитуда: " + string(Programm.scs_m.objs(23).graphics.exprs(4))]
+//        IdentificationACS.LastModulation.SignalType.Parametres = [
+//            "Задержка по фазе (с): " + string(IdentificationACS.scs_m.objs(23).graphics.exprs(1)); 
+//            "Длительность импульса (%): " + string(IdentificationACS.scs_m.objs(23).graphics.exprs(2)); 
+//            "Период (с): " + string(IdentificationACS.scs_m.objs(23).graphics.exprs(3)); 
+//            "Амлитуда: " + string(IdentificationACS.scs_m.objs(23).graphics.exprs(4))]
 //    end
 //    
 //    if signalType.Value == 4 then
 //        
-//        if Programm.scs_m.objs(2).graphics.exprs(2) == "0" then
+//        if IdentificationACS.scs_m.objs(2).graphics.exprs(2) == "0" then
 //            kindOfDistribution = "Равномерное"
 //        else
 //            kindOfDistribution = "Нормальное"
 //        end
 //        
-//        Programm.LastModulation.SignalType.Parametres = [
+//        IdentificationACS.LastModulation.SignalType.Parametres = [
 //            "Вид распределения: " + kindOfDistribution; 
-//            "A: " + string(Programm.scs_m.objs(2).graphics.exprs(3)); 
-//            "B: " + string(Programm.scs_m.objs(2).graphics.exprs(4))]
+//            "A: " + string(IdentificationACS.scs_m.objs(2).graphics.exprs(3)); 
+//            "B: " + string(IdentificationACS.scs_m.objs(2).graphics.exprs(4))]
 //    end
 //    
-//    Programm.LastModulation.ObjectModel.Name = link_type.String(link_type.Value)
+//    IdentificationACS.LastModulation.ObjectModel.Name = link_type.String(link_type.Value)
 //    
 //    if link_type.Value == 1 then
-//        Programm.LastModulation.ObjectModel.Parametres = [
-//            "Коэффициент усиления: " + Programm.Model.Aperiodic1(1); 
-//            "Постоянная времени: " + Programm.Model.Aperiodic1(2)]
+//        IdentificationACS.LastModulation.ObjectModel.Parametres = [
+//            "Коэффициент усиления: " + IdentificationACS.Model.Aperiodic1(1); 
+//            "Постоянная времени: " + IdentificationACS.Model.Aperiodic1(2)]
 //    end
 //    
 //    if signalType.Value == 2 then
-//        Programm.LastModulation.ObjectModel.Parametres = [
-//            "Коэффициент усиления: " + Programm.Model.Aperiodic2(1); 
-//            "Постоянная времени T1: " + Programm.Model.Aperiodic2(2); 
-//            "Постоянная времени T2: " + Programm.Model.Aperiodic2(3)]
+//        IdentificationACS.LastModulation.ObjectModel.Parametres = [
+//            "Коэффициент усиления: " + IdentificationACS.Model.Aperiodic2(1); 
+//            "Постоянная времени T1: " + IdentificationACS.Model.Aperiodic2(2); 
+//            "Постоянная времени T2: " + IdentificationACS.Model.Aperiodic2(3)]
 //    end
 //    
-//    Programm.LastModulation.FilterOrder.Name = uiFilterOrder.String(uiFilterOrder.Value)
+//    IdentificationACS.LastModulation.FilterOrder.Name = uiFilterOrder.String(uiFilterOrder.Value)
 //    
 //    if uiFilterOrder.Value == 1 then
-//        Programm.LastModulation.FilterOrder.Parametres = [
-//            "Коэффициент усиления: " + Programm.Filter.First(1); 
-//            "Постоянная времени: " + Programm.Filter.First(2)]
+//        IdentificationACS.LastModulation.FilterOrder.Parametres = [
+//            "Коэффициент усиления: " + IdentificationACS.Filter.First(1); 
+//            "Постоянная времени: " + IdentificationACS.Filter.First(2)]
 //    end
 //    
 //    if uiFilterOrder.Value == 2 then
-//        Programm.LastModulation.FilterOrder.Parametres = [
-//            "Коэффициент усиления: " + Programm.Filter.Second(1); 
-//            "Постоянная времени T1: " + Programm.Filter.Second(2); 
-//            "Постоянная времени T2: " + Programm.Filter.Second(3)]
+//        IdentificationACS.LastModulation.FilterOrder.Parametres = [
+//            "Коэффициент усиления: " + IdentificationACS.Filter.Second(1); 
+//            "Постоянная времени T1: " + IdentificationACS.Filter.Second(2); 
+//            "Постоянная времени T2: " + IdentificationACS.Filter.Second(3)]
 //    end
         
     set(start, "enable", "on")  
@@ -241,7 +241,7 @@ function Set_Xcos_parametres(plot_frame)
 endfunction
 
 function SavePlotIntoImage()
-    global Programm
+    global IdentificationACS
     
     if plot_frame.children == [] then
         messagebox("Результаты моделирования не обнаружены!", "Error", "error", ["Ок"], "modal")
@@ -284,28 +284,28 @@ function SavePlotIntoImage()
     t.text_box_mode = 'centered'
     
     row = row - indent - indent - indent
-    xstring(indentLeft, row, "Входной сигнал: " + Programm.LastModulation.SignalType.Name)
+    xstring(indentLeft, row, "Входной сигнал: " + IdentificationACS.LastModulation.SignalType.Name)
     
-    for i = 1:length(length(Programm.LastModulation.SignalType.Parametres))
+    for i = 1:length(length(IdentificationACS.LastModulation.SignalType.Parametres))
         row = row - indent
-        xstring(indentLeft, row, Programm.LastModulation.SignalType.Parametres(i))
+        xstring(indentLeft, row, IdentificationACS.LastModulation.SignalType.Parametres(i))
     end
     
     row = row - indent - indent
-    xstring(indentLeft, row, "Модель объекта: " + Programm.LastModulation.ObjectModel.Name)
+    xstring(indentLeft, row, "Модель объекта: " + IdentificationACS.LastModulation.ObjectModel.Name)
     
-    for i = 1:length(length(Programm.LastModulation.ObjectModel.Parametres))
+    for i = 1:length(length(IdentificationACS.LastModulation.ObjectModel.Parametres))
         row = row - indent
-        xstring(indentLeft, row, Programm.LastModulation.ObjectModel.Parametres(i))
+        xstring(indentLeft, row, IdentificationACS.LastModulation.ObjectModel.Parametres(i))
     end
     
     row = row - indent - indent
     
-    xstring(indentLeft, row, "Порядок фильтра: " + Programm.LastModulation.FilterOrder.Name)
+    xstring(indentLeft, row, "Порядок фильтра: " + IdentificationACS.LastModulation.FilterOrder.Name)
     
-    for i = 1:length(length(Programm.LastModulation.FilterOrder.Parametres))
+    for i = 1:length(length(IdentificationACS.LastModulation.FilterOrder.Parametres))
         row = row - indent
-        xstring(indentLeft, row, Programm.LastModulation.FilterOrder.Parametres(i))
+        xstring(indentLeft, row, IdentificationACS.LastModulation.FilterOrder.Parametres(i))
     end
     
     exportUI(f)

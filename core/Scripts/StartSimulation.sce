@@ -1,28 +1,28 @@
-Programm.MainWindow.Frames.PlotFrame.Visible = "on";
+IdentificationACS.MainWindow.Frames.PlotFrame.Visible = "on";
 
-delete(Programm.MainWindow.Frames.PlotFrame.Children);
-__graphics__ = newaxes(Programm.MainWindow.Frames.PlotFrame);
+delete(IdentificationACS.MainWindow.Frames.PlotFrame.Children);
+__graphics__ = newaxes(IdentificationACS.MainWindow.Frames.PlotFrame);
 
-Programm.MainWindow.Frames.StartSimulation.Enable  = "off";
-Programm.MainWindow.Frames.NoDataFrame.Visible = "on";
-Programm.MainWindow.Frames.PlotFrame.Visible = "off";
+IdentificationACS.MainWindow.Frames.StartSimulation.Enable  = "off";
+IdentificationACS.MainWindow.Frames.NoDataFrame.Visible = "on";
+IdentificationACS.MainWindow.Frames.PlotFrame.Visible = "off";
 
 __waitbarHandle__ = progressionbar("Выполнение моделирования...");
 
-__modulationStep__ = strtod(Programm.MainWindow.Texts.ModulationStep.String);
-__modulationTime__ = strtod(Programm.MainWindow.Texts.ModulationTime.String);
+__modulationStep__ = strtod(IdentificationACS.MainWindow.Texts.ModulationStep.String);
+__modulationTime__ = strtod(IdentificationACS.MainWindow.Texts.ModulationTime.String);
 __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; // Массив времени для построения графиков и т.п. (Scilab передает неверно). 
                                                                                 // ' — транспонирование матрицы (массив времени — столбец)
 
 // Симуляция входного сигнала
 //try
-    __inputSignal__ = Programm.MainWindow.Popmenus.SignalType.String(Programm.MainWindow.Popmenus.SignalType.Value);
+    __inputSignal__ = IdentificationACS.MainWindow.Popmenus.SignalType.String(IdentificationACS.MainWindow.Popmenus.SignalType.Value);
 
     if (strrchr(__inputSignal__, '.') == ".sce") then
-        exec(Programm.Modules.InputSignals.Path + __inputSignal__); // Выполнение модуля
+        exec(IdentificationACS.Modules.InputSignals.Path + __inputSignal__); // Выполнение модуля
         __source__ = struct("values", __out__, "time", __time__); // Формирование структуры для XCos
     else
-        importXcosDiagram(Programm.Modules.InputSignals.Path + __inputSignal__); // Импорт scs_m
+        importXcosDiagram(IdentificationACS.Modules.InputSignals.Path + __inputSignal__); // Импорт scs_m
         scs_m.props.tf = __modulationTime__; // Установка времени моделирования
         
         for __i__ = 1 : size(scs_m.objs)
@@ -45,13 +45,13 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
 
     // Симуляция модели объекта
 
-    __objectModel__ = Programm.MainWindow.Popmenus.ObjectModel.String(Programm.MainWindow.Popmenus.ObjectModel.Value);
+    __objectModel__ = IdentificationACS.MainWindow.Popmenus.ObjectModel.String(IdentificationACS.MainWindow.Popmenus.ObjectModel.Value);
 
     if (strrchr(__objectModel__, '.') == ".sce") then
-        exec(Programm.Modules.Objects.Path + __objectModel__); // Выполнение модуля
+        exec(IdentificationACS.Modules.Objects.Path + __objectModel__); // Выполнение модуля
         __obj__ = struct("values", __out__, "time", __time__); // Формирование структуры для XCos
     else
-        importXcosDiagram(Programm.Modules.Objects.Path + __objectModel__); // Импорт scs_m
+        importXcosDiagram(IdentificationACS.Modules.Objects.Path + __objectModel__); // Импорт scs_m
         scs_m.props.tf = __modulationTime__; // Установка времени моделирования
 
         for __i__ = 1 : size(scs_m.objs)
@@ -80,18 +80,18 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
 
     // Идентификация
 
-    __identification__ = Programm.MainWindow.Texts.ModuleName.String;
+    __identification__ = IdentificationACS.MainWindow.Texts.ModuleName.String;
 
     if __identification__ == "<не выбранно>" then
         messagebox("Необходимо выбрать модуль!", "Error!", "error", "modal");
     else 
         if (strrchr(__identification__, '.') == ".sce") then
-            exec(Programm.MainWindow.SelectedModule.Path + __identification__); // Выполнение модуля
+            exec(IdentificationACS.MainWindow.SelectedModule.Path + __identification__); // Выполнение модуля
 
-            Programm.MainWindow.Frames.NoDataFrame.Visible = "off";
-            Programm.MainWindow.Frames.PlotFrame.Visible = "on";
+            IdentificationACS.MainWindow.Frames.NoDataFrame.Visible = "off";
+            IdentificationACS.MainWindow.Frames.PlotFrame.Visible = "on";
         else
-            importXcosDiagram(Programm.MainWindow.SelectedModule.Path + Programm.MainWindow.SelectedModule.Name); // Импорт scs_m
+            importXcosDiagram(IdentificationACS.MainWindow.SelectedModule.Path + IdentificationACS.MainWindow.SelectedModule.Name); // Импорт scs_m
             scs_m.props.tf = __modulationTime__; // Установка времени моделирования
             
             for __i__ = 1 : size(scs_m.objs)
@@ -116,12 +116,12 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
             __countParametres__ = 0;
             __parametresNames__ = [];
 
-            if Programm.MainWindow.Checkboxes.ShowSource.Value == 1 then
+            if IdentificationACS.MainWindow.Checkboxes.ShowSource.Value == 1 then
                 __countParametres__ = __countParametres__ + 1;
                 __parametresNames__ = [__parametresNames__ "__source__"];
             end
 
-            if Programm.MainWindow.Checkboxes.ShowObj.Value == 1 then
+            if IdentificationACS.MainWindow.Checkboxes.ShowObj.Value == 1 then
                 __countParametres__ = __countParametres__ + 1;
                 __parametresNames__ = [__parametresNames__ "__obj__"];
             end
@@ -151,17 +151,17 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
                 __p__.x_label.font_size = 2;
             end
 
-            Programm.MainWindow.Frames.NoDataFrame.Visible = "off";
-            Programm.MainWindow.Frames.PlotFrame.Visible = "on";
+            IdentificationACS.MainWindow.Frames.NoDataFrame.Visible = "off";
+            IdentificationACS.MainWindow.Frames.PlotFrame.Visible = "on";
             
         end
     end
         close(__waitbarHandle__);
 
-        Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
+        IdentificationACS.MainWindow.Frames.StartSimulation.Enable  = "on";
 //catch    
 //     if isdef("__waitbarHandle__") then close(__waitbarHandle__); end
-//     Programm.MainWindow.Frames.StartSimulation.Enable  = "on";
+//     IdentificationACS.MainWindow.Frames.StartSimulation.Enable  = "on";
 //     ShowLastError();
 //end
 

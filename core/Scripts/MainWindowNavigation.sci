@@ -1,13 +1,13 @@
 function SetModulesList(path)
-    global Programm;
+    global IdentificationACS;
 
     dirInfo = dir(path);
 
-    Programm.MainWindow.Listboxes.SelectModuleListbox.String = [];
+    IdentificationACS.MainWindow.Listboxes.SelectModuleListbox.String = [];
     for i = 1 : size(dirInfo.name, "r") // кол-во строк в векторе
         if (dirInfo.isdir(i) == %t) then
-            Programm.MainWindow.Listboxes.SelectModuleListbox.String = [
-                Programm.MainWindow.Listboxes.SelectModuleListbox.String;
+            IdentificationACS.MainWindow.Listboxes.SelectModuleListbox.String = [
+                IdentificationACS.MainWindow.Listboxes.SelectModuleListbox.String;
                 "folder", dirInfo.name(i), "#FFFFFF", "#000000"];
         end
     end
@@ -16,119 +16,119 @@ function SetModulesList(path)
         if (dirInfo.isdir(i) == %f) then
             if strrchr(dirInfo.name, '.') <> ".sce" & strrchr(dirInfo.name, '.') <> ".zcos" then continue; end
 
-            Programm.MainWindow.Listboxes.SelectModuleListbox.String = [
-                Programm.MainWindow.Listboxes.SelectModuleListbox.String;
+            IdentificationACS.MainWindow.Listboxes.SelectModuleListbox.String = [
+                IdentificationACS.MainWindow.Listboxes.SelectModuleListbox.String;
                 "text-x-generic", dirInfo.name(i), "#FFFFFF", "#000000"];
         end
     end
 
-    Programm.MainWindow.Texts.CurrentPath.String = ..
-        Programm.MainWindow.Navigation.RelativePaths(Programm.MainWindow.Navigation.CurrentIndex);
+    IdentificationACS.MainWindow.Texts.CurrentPath.String = ..
+        IdentificationACS.MainWindow.Navigation.RelativePaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
 endfunction 
 
 function mwn_b()
-    global Programm;
+    global IdentificationACS;
 
-    Programm.MainWindow.Navigation.CurrentIndex = Programm.MainWindow.Navigation.CurrentIndex - 1;
-    SetModulesList(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex));
+    IdentificationACS.MainWindow.Navigation.CurrentIndex = IdentificationACS.MainWindow.Navigation.CurrentIndex - 1;
+    SetModulesList(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex));
 
-    if (Programm.MainWindow.Navigation.CurrentIndex == 1) then
-        Programm.MainWindow.Buttons.Backward.Enable = "off";
-        Programm.MainWindow.Buttons.RemoveFolder.Enable = "off";
-        Programm.MainWindow.Buttons.RenameModule.Enable = "off";
+    if (IdentificationACS.MainWindow.Navigation.CurrentIndex == 1) then
+        IdentificationACS.MainWindow.Buttons.Backward.Enable = "off";
+        IdentificationACS.MainWindow.Buttons.RemoveFolder.Enable = "off";
+        IdentificationACS.MainWindow.Buttons.RenameModule.Enable = "off";
     end 
 
-    Programm.MainWindow.Buttons.Forward.Enable = "on";
+    IdentificationACS.MainWindow.Buttons.Forward.Enable = "on";
 endfunction
 
 function mwn_f()
-    global Programm;
+    global IdentificationACS;
 
-    Programm.MainWindow.Navigation.CurrentIndex = Programm.MainWindow.Navigation.CurrentIndex + 1;
-    SetModulesList(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex));
+    IdentificationACS.MainWindow.Navigation.CurrentIndex = IdentificationACS.MainWindow.Navigation.CurrentIndex + 1;
+    SetModulesList(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex));
 
-    if (Programm.MainWindow.Navigation.CurrentIndex == size(Programm.MainWindow.Navigation.FullPaths)) then
-        Programm.MainWindow.Buttons.Forward.Enable = "off";
+    if (IdentificationACS.MainWindow.Navigation.CurrentIndex == size(IdentificationACS.MainWindow.Navigation.FullPaths)) then
+        IdentificationACS.MainWindow.Buttons.Forward.Enable = "off";
     end 
 
-    Programm.MainWindow.Buttons.Backward.Enable = "on";
-    Programm.MainWindow.Buttons.RemoveFolder.Enable = "on";
-    Programm.MainWindow.Buttons.RenameModule.Enable = "on";
+    IdentificationACS.MainWindow.Buttons.Backward.Enable = "on";
+    IdentificationACS.MainWindow.Buttons.RemoveFolder.Enable = "on";
+    IdentificationACS.MainWindow.Buttons.RenameModule.Enable = "on";
 endfunction
 
 function mwn_h()
-    global Programm;
+    global IdentificationACS;
 
-    if (Programm.MainWindow.Navigation.FullPaths($) <> Programm.MainWindow.Navigation.FullPaths(1)) then 
-        Programm.MainWindow.Navigation.FullPaths($+1) = Programm.MainWindow.Navigation.FullPaths(1);        
-        Programm.MainWindow.Navigation.CurrentIndex = Programm.MainWindow.Navigation.CurrentIndex + 1;
+    if (IdentificationACS.MainWindow.Navigation.FullPaths($) <> IdentificationACS.MainWindow.Navigation.FullPaths(1)) then 
+        IdentificationACS.MainWindow.Navigation.FullPaths($+1) = IdentificationACS.MainWindow.Navigation.FullPaths(1);        
+        IdentificationACS.MainWindow.Navigation.CurrentIndex = IdentificationACS.MainWindow.Navigation.CurrentIndex + 1;
     end
     
-    SetModulesList(Programm.MainWindow.Navigation.FullPaths($));
-    Programm.MainWindow.Navigation.CurrentIndex = size(Programm.MainWindow.Navigation.FullPaths);
+    SetModulesList(IdentificationACS.MainWindow.Navigation.FullPaths($));
+    IdentificationACS.MainWindow.Navigation.CurrentIndex = size(IdentificationACS.MainWindow.Navigation.FullPaths);
 
-    Programm.MainWindow.Buttons.Previous.Enable = "on";
-    Programm.MainWindow.Buttons.Forward.Enable = "on";
+    IdentificationACS.MainWindow.Buttons.Previous.Enable = "on";
+    IdentificationACS.MainWindow.Buttons.Forward.Enable = "on";
 endfunction
 
 function mwn_o(name)
-    global Programm;
+    global IdentificationACS;
 
-    Programm.MainWindow.Navigation.CurrentFolderName = name;    
+    IdentificationACS.MainWindow.Navigation.CurrentFolderName = name;    
     pathName = name + "\";
 
-    navList = Programm.MainWindow.Navigation.FullPaths;
-    currentIndex = Programm.MainWindow.Navigation.CurrentIndex;
+    navList = IdentificationACS.MainWindow.Navigation.FullPaths;
+    currentIndex = IdentificationACS.MainWindow.Navigation.CurrentIndex;
 
     if isfile(navList(currentIndex) + name) then
-        Programm.MainWindow.Texts.ModuleName.String = name;
-        Programm.MainWindow.SelectedModule.Name = name;
-        Programm.MainWindow.SelectedModule.Path = ..
-            Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex);
+        IdentificationACS.MainWindow.Texts.ModuleName.String = name;
+        IdentificationACS.MainWindow.SelectedModule.Name = name;
+        IdentificationACS.MainWindow.SelectedModule.Path = ..
+            IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
 
-        Programm.MainWindow.Buttons.ObjectModel.Enable = "on";
-        Programm.MainWindow.Buttons.RemoveModule.Enable = "on";
-        Programm.MainWindow.Buttons.RenameModule.Enable = "on";
+        IdentificationACS.MainWindow.Buttons.ObjectModel.Enable = "on";
+        IdentificationACS.MainWindow.Buttons.RemoveModule.Enable = "on";
+        IdentificationACS.MainWindow.Buttons.RenameModule.Enable = "on";
     else
         // Вставка нового пути в конец списка
 
         if currentIndex == size(navList) then
-            Programm.MainWindow.Navigation.FullPaths($+1) = navList($) + pathName;
-            Programm.MainWindow.Navigation.RelativePaths($+1) = Programm.MainWindow.Navigation.RelativePaths($) + pathName;
-            Programm.MainWindow.Navigation.FolderNames($+1) = name;
+            IdentificationACS.MainWindow.Navigation.FullPaths($+1) = navList($) + pathName;
+            IdentificationACS.MainWindow.Navigation.RelativePaths($+1) = IdentificationACS.MainWindow.Navigation.RelativePaths($) + pathName;
+            IdentificationACS.MainWindow.Navigation.FolderNames($+1) = name;
         else
             // Переход к каталогу, который отличается от следующего
             if navList(currentIndex) + pathName <> navList(currentIndex + 1) then
                 DrElsFrNavLst(currentIndex);
 
-                Programm.MainWindow.Navigation.FullPaths($+1) = Programm.MainWindow.Navigation.FullPaths($) + pathName;
-                Programm.MainWindow.Navigation.RelativePaths($+1) = Programm.MainWindow.Navigation.RelativePaths($) + pathName;
-                Programm.MainWindow.Navigation.FolderNames($+1) = name;
+                IdentificationACS.MainWindow.Navigation.FullPaths($+1) = IdentificationACS.MainWindow.Navigation.FullPaths($) + pathName;
+                IdentificationACS.MainWindow.Navigation.RelativePaths($+1) = IdentificationACS.MainWindow.Navigation.RelativePaths($) + pathName;
+                IdentificationACS.MainWindow.Navigation.FolderNames($+1) = name;
             end
         end
 
         // Переход к каталогу, который НЕ отличается от следующего, то ничего не делаем
 
-        Programm.MainWindow.Navigation.CurrentIndex = currentIndex + 1;
-        SetModulesList(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex));
+        IdentificationACS.MainWindow.Navigation.CurrentIndex = currentIndex + 1;
+        SetModulesList(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex));
 
-        Programm.MainWindow.Buttons.Forward.Enable = "off";
-        Programm.MainWindow.Buttons.Backward.Enable = "on";
-        Programm.MainWindow.Buttons.RemoveFolder.Enable = "on";
-        Programm.MainWindow.Buttons.RenameModule.Enable = "on";
+        IdentificationACS.MainWindow.Buttons.Forward.Enable = "off";
+        IdentificationACS.MainWindow.Buttons.Backward.Enable = "on";
+        IdentificationACS.MainWindow.Buttons.RemoveFolder.Enable = "on";
+        IdentificationACS.MainWindow.Buttons.RenameModule.Enable = "on";
     end
 endfunction
 
 function mwn_crtFldr()
-    global Programm;
+    global IdentificationACS;
 
     try
         folderName = x_dialog('Имя новой папки:','');
 
         if folderName == [] then return; end
 
-        mkdir(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex) + folderName); // Создание новой пааки в той же директории
-        SetModulesList(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex)); // Обновление 
+        mkdir(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex) + folderName); // Создание новой пааки в той же директории
+        SetModulesList(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex)); // Обновление 
     catch
         [error_message,error_number]=lasterror(%t);
         messagebox(error_message, "Error!", "error", "modal");
@@ -136,11 +136,11 @@ function mwn_crtFldr()
 endfunction
 
 function mwn_rmvFldr()
-    global Programm;
+    global IdentificationACS;
 
     ans = messagebox( ..
         "Вы действительно хотите удалить папку """ ..
-        + Programm.MainWindow.Navigation.FolderNames(Programm.MainWindow.Navigation.CurrentIndex) ..
+        + IdentificationACS.MainWindow.Navigation.FolderNames(IdentificationACS.MainWindow.Navigation.CurrentIndex) ..
         + """ со всем её содержимым?", ..
         "", "question", ["Да" "Нет"], "modal");
 
@@ -148,20 +148,20 @@ function mwn_rmvFldr()
     if ans == 2 then return; end
 
     // Да
-    [status, msg] = rmdir(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex), 's');
+    [status, msg] = rmdir(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex), 's');
 
     if status == 0 then messagebox(msg, "", "error", "modal"); end
 
-    Programm.MainWindow.Navigation.CurrentIndex = Programm.MainWindow.Navigation.CurrentIndex - 1;
+    IdentificationACS.MainWindow.Navigation.CurrentIndex = IdentificationACS.MainWindow.Navigation.CurrentIndex - 1;
     
-    DrElsFrNavLst(Programm.MainWindow.Navigation.CurrentIndex);
-    SetModulesList(Programm.MainWindow.Navigation.FullPaths($));
+    DrElsFrNavLst(IdentificationACS.MainWindow.Navigation.CurrentIndex);
+    SetModulesList(IdentificationACS.MainWindow.Navigation.FullPaths($));
 endfunction
 
 function mwn_addModule()
-    global Programm;
+    global IdentificationACS;
 
-    path = Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex);
+    path = IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
 
     [newFileName, newFilePath] = uigetfile(["*.sce", "SciNotes Execution Files (*.sce)"; "*.zcos", "XCos Files (*.zcos)"])
 
@@ -179,56 +179,56 @@ function mwn_addModule()
 endfunction
 
 function mwn_renameModule()
-    global Programm;
+    global IdentificationACS;
 
-    newName = x_dialog('Новое имя файла:', Programm.MainWindow.SelectedModule.Name);
+    newName = x_dialog('Новое имя файла:', IdentificationACS.MainWindow.SelectedModule.Name);
 
     // Отмена
     if newName == [] then return; end
 
     // Ок       
-    copyfile(Programm.MainWindow.SelectedModule.Path + Programm.MainWindow.SelectedModule.Name, ..
-        Programm.MainWindow.SelectedModule.Path + newName);
-    deletefile(Programm.MainWindow.SelectedModule.Path + Programm.MainWindow.SelectedModule.Name);
+    copyfile(IdentificationACS.MainWindow.SelectedModule.Path + IdentificationACS.MainWindow.SelectedModule.Name, ..
+        IdentificationACS.MainWindow.SelectedModule.Path + newName);
+    deletefile(IdentificationACS.MainWindow.SelectedModule.Path + IdentificationACS.MainWindow.SelectedModule.Name);
 
-    Programm.MainWindow.Texts.ModuleName.String = newName;
-    Programm.MainWindow.SelectedModule.Name = newName;
+    IdentificationACS.MainWindow.Texts.ModuleName.String = newName;
+    IdentificationACS.MainWindow.SelectedModule.Name = newName;
     
-    SetModulesList(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex));
+    SetModulesList(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex));
 endfunction
 
 function mwn_removeModule()
-    global Programm;
+    global IdentificationACS;
 
     ans = messagebox( ..
         "Вы действительно хотите удалить модуль """ ..
-        + Programm.MainWindow.SelectedModule.Name + """?", ..
+        + IdentificationACS.MainWindow.SelectedModule.Name + """?", ..
         "", "question", ["Да" "Нет"], "modal");
 
     // Нет
     if ans == 2 then return; end
 
     // Да
-    deletefile(Programm.MainWindow.SelectedModule.Path + Programm.MainWindow.SelectedModule.Name);
+    deletefile(IdentificationACS.MainWindow.SelectedModule.Path + IdentificationACS.MainWindow.SelectedModule.Name);
 
-    Programm.MainWindow.Texts.ModuleName.String = "<не выбранно>";
-    Programm.MainWindow.SelectedModule.Name = "<не выбранно>";
-    Programm.MainWindow.SelectedModule.Path = "";
+    IdentificationACS.MainWindow.Texts.ModuleName.String = "<не выбранно>";
+    IdentificationACS.MainWindow.SelectedModule.Name = "<не выбранно>";
+    IdentificationACS.MainWindow.SelectedModule.Path = "";
 
-    Programm.MainWindow.Buttons.ObjectModel.Enable = "off";
-    Programm.MainWindow.Buttons.RemoveModule.Enable = "off";
-    Programm.MainWindow.Buttons.RenameModule.Enable = "on";
+    IdentificationACS.MainWindow.Buttons.ObjectModel.Enable = "off";
+    IdentificationACS.MainWindow.Buttons.RemoveModule.Enable = "off";
+    IdentificationACS.MainWindow.Buttons.RenameModule.Enable = "on";
     
-    SetModulesList(Programm.MainWindow.Navigation.FullPaths(Programm.MainWindow.Navigation.CurrentIndex));
+    SetModulesList(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex));
 endfunction
 
 // DropElementsFromNavigationListToIndex
 function DrElsFrNavLst(index)
-    global Programm;
+    global IdentificationACS;
 
-    while size(Programm.MainWindow.Navigation.FullPaths) > index
-        Programm.MainWindow.Navigation.FullPaths($) = null();
-        Programm.MainWindow.Navigation.RelativePaths($) = null();
-        Programm.MainWindow.Navigation.FolderNames($) = null();
+    while size(IdentificationACS.MainWindow.Navigation.FullPaths) > index
+        IdentificationACS.MainWindow.Navigation.FullPaths($) = null();
+        IdentificationACS.MainWindow.Navigation.RelativePaths($) = null();
+        IdentificationACS.MainWindow.Navigation.FolderNames($) = null();
     end
 endfunction
