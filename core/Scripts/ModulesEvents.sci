@@ -7,16 +7,18 @@ function RefreshInputSignals()
     IdentificationACS.Modules.InputSignals.List = [IdentificationACS.Modules.InputSignals.List; "Добавить..."];
     
     set(IdentificationACS.MainWindow.Popmenus.SignalType, "String", IdentificationACS.Modules.InputSignals.List);
-    
-    if IdentificationACS.Modules.InputSignals.List == ["Добавить..."] then
-        set(IdentificationACS.MainWindow.Popmenus.SignalType, "Value", 0);
-    else
-        set(IdentificationACS.MainWindow.Popmenus.SignalType, "Value", 1);
-    end
 
-    if IdentificationACS.MainWindow.Popmenus.SignalType.Value == 0 then 
+    if IdentificationACS.Modules.InputSignals.List == ["Добавить..."] then
+        IdentificationACS.MainWindow.Popmenus.SignalType.Value = 0;
+
+        IdentificationACS.MainWindow.Buttons.OpenInput.Enable = "off";
+        IdentificationACS.MainWindow.Buttons.RenameInput.Enable = "off";
         IdentificationACS.MainWindow.Buttons.RemoveInput.Enable = "off";
     else
+        IdentificationACS.MainWindow.Popmenus.SignalType.Value = 1;
+
+        IdentificationACS.MainWindow.Buttons.OpenInput.Enable = "on";
+        IdentificationACS.MainWindow.Buttons.RenameInput.Enable = "on";
         IdentificationACS.MainWindow.Buttons.RemoveInput.Enable = "on";
     end
 endfunction     
@@ -31,14 +33,16 @@ function RefreshObjects()
     set(IdentificationACS.MainWindow.Popmenus.ObjectModel, "String", IdentificationACS.Modules.Objects.List);
     
     if IdentificationACS.Modules.Objects.List == ["Добавить..."] then
-        set(IdentificationACS.MainWindow.Popmenus.ObjectModel, "Value", 0);
-    else
-        set(IdentificationACS.MainWindow.Popmenus.ObjectModel, "Value", 1);
-    end
+        IdentificationACS.MainWindow.Popmenus.InputSignals.Value = 0;
 
-    if IdentificationACS.MainWindow.Popmenus.ObjectModel.Value == 0 then 
+        IdentificationACS.MainWindow.Buttons.OpenObject.Enable = "off";
+        IdentificationACS.MainWindow.Buttons.RenameObject.Enable = "off";
         IdentificationACS.MainWindow.Buttons.RemoveObject.Enable = "off";
     else
+        IdentificationACS.MainWindow.Popmenus.InputSignals.Value = 1;
+
+        IdentificationACS.MainWindow.Buttons.OpenObject.Enable = "on";
+        IdentificationACS.MainWindow.Buttons.RenameObject.Enable = "on";
         IdentificationACS.MainWindow.Buttons.RemoveObject.Enable = "on";
     end
 endfunction
@@ -72,13 +76,21 @@ function RenameModule(path, name, refreshFunc)
     // Отмена
     if newName == [] then return; end
 
+    // Нет изменений
+    if newName == name then return; end
+
+    // Уже существует
+    if find(path + newName == findfiles(path) <> [] then
+        messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
+    end
+
     // Ок
     copyfile(path + name, path + newName);    
     deletefile(path + name);
     refreshFunc();
 endfunction
 
-function RemoveModule(popupmenu, path, name, refreshFunc)    
+function RemoveModule(path, name, refreshFunc)    
     ans = messagebox("Вы действительно хотите удалить модуль """ + name + """?", "", "question", ["Да" "Нет"], "modal");
 
     // Нет
@@ -86,6 +98,8 @@ function RemoveModule(popupmenu, path, name, refreshFunc)
 
     // Да
     deletefile(path + name);
+
+    refreshFunc();
 endfunction
 
 function OpenModule(path, name)
