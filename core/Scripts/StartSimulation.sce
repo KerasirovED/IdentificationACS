@@ -21,7 +21,7 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
 
 // Симуляция входного сигнала
 //try
-    __inputSignal__ = IdentificationACS.MainWindow.Popmenus.SignalType.String(IdentificationACS.MainWindow.Popmenus.SignalType.Value);
+    __inputSignal__ = IdentificationACS.MainWindow.Popmenus.InputSignals.String(IdentificationACS.MainWindow.Popmenus.InputSignals.Value);
 
     if (strrchr(__inputSignal__, '.') == ".sce") then
         exec(IdentificationACS.Modules.InputSignals.Path + __inputSignal__); // Выполнение модуля
@@ -152,15 +152,15 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
                 __p__.x_label.text = "t";
                 __p__.x_label.font_size = 2;
             end
-
-            IdentificationACS.MainWindow.Frames.NoDataFrame.Visible = "off";
-            IdentificationACS.MainWindow.Frames.PlotFrame.Visible = "on";
             
         end
     end
         close(__waitbarHandle__);
 
         IdentificationACS.MainWindow.Frames.StartSimulation.Enable  = "on";
+
+        IdentificationACS.MainWindow.Frames.NoDataFrame.Visible = "off";
+        IdentificationACS.MainWindow.Frames.PlotFrame.Visible = "on";
 //catch    
 //     if isdef("__waitbarHandle__") then close(__waitbarHandle__); end
 //     IdentificationACS.MainWindow.Frames.StartSimulation.Enable  = "on";

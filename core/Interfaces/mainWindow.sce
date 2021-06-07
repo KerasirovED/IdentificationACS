@@ -56,32 +56,31 @@ IdentificationACS.MainWindow.Frames.SignalParametres = uicontrol(IdentificationA
     "style", "frame", ..
     "constraints", createConstraints("gridbag", [1 2 1 1], [1 0], "both", "center", [0 0], [0 45]));
     
-IdentificationACS.MainWindow.Popmenus.SignalType = [];
-IdentificationACS.MainWindow.Popmenus.SignalType = uicontrol(IdentificationACS.MainWindow.Frames.SignalParametres, ..
+IdentificationACS.MainWindow.Popmenus.InputSignals = [];
+IdentificationACS.MainWindow.Popmenus.InputSignals = uicontrol(IdentificationACS.MainWindow.Frames.SignalParametres, ..
     "style", "popupmenu", ..
     "string", IdentificationACS.Modules.InputSignals.List, ..
-    "tag", "IdentificationACS.MainWindow.Frames.SignalType", ..
-    "callback", "AddModule(IdentificationACS.MainWindow.Popmenus.SignalType, IdentificationACS.Modules.InputSignals.Path, RefreshInputSignals)", ..
+    "callback", "AddModule(IdentificationACS.MainWindow.Popmenus.InputSignals, IdentificationACS.Modules.InputSignals.Path, RefreshInputSignals)", ..
     "position", [5 25 253 20]);
         
 IdentificationACS.MainWindow.Buttons.OpenInput = [];
 IdentificationACS.MainWindow.Buttons.OpenInput = uicontrol(IdentificationACS.MainWindow.Frames.SignalParametres, ..
     "style", "pushbutton", ..
-    "callback", "OpenModule(IdentificationACS.Modules.InputSignals.Path, IdentificationACS.MainWindow.Popmenus.SignalType.String(IdentificationACS.MainWindow.Popmenus.SignalType.Value))", ..
+    "callback", "OpenModule(IdentificationACS.Modules.InputSignals.Path, IdentificationACS.MainWindow.Popmenus.InputSignals.String(IdentificationACS.MainWindow.Popmenus.InputSignals.Value))", ..
     "icon", IdentificationACS.Path + "images\open-file.png", ..
     "TooltipString", "Открыть", ..
     "position", [260 24 22 22]);
 
 IdentificationACS.MainWindow.Buttons.RenameInput = uicontrol(IdentificationACS.MainWindow.Frames.SignalParametres, ..
     "style", "pushbutton", ..
-    "callback", "RenameModule(IdentificationACS.Modules.InputSignals.Path, IdentificationACS.MainWindow.Popmenus.SignalType.String(IdentificationACS.MainWindow.Popmenus.SignalType.Value), RefreshInputSignals)", ..
+    "callback", "RenameModule(IdentificationACS.Modules.InputSignals.Path, IdentificationACS.MainWindow.Popmenus.InputSignals.String(IdentificationACS.MainWindow.Popmenus.InputSignals.Value), RefreshInputSignals)", ..
     "icon", IdentificationACS.Path + "images\edit-file.png", ..
     "TooltipString", "Переименовать", ..
     "position", [283 24 22 22]);
 
 IdentificationACS.MainWindow.Buttons.RemoveInput = uicontrol(IdentificationACS.MainWindow.Frames.SignalParametres, ..
     "style", "pushbutton", ..
-    "callback", "RemoveModule(IdentificationACS.Modules.InputSignals.Path, IdentificationACS.MainWindow.Popmenus.SignalType.String(IdentificationACS.MainWindow.Popmenus.SignalType.Value), RefreshInputSignals)", ..
+    "callback", "RemoveModule(IdentificationACS.Modules.InputSignals.Path, IdentificationACS.MainWindow.Popmenus.InputSignals.String(IdentificationACS.MainWindow.Popmenus.InputSignals.Value), RefreshInputSignals)", ..
     "icon", IdentificationACS.Path + "images\remove-file.png", ..
     "TooltipString", "Удалить", ..
     "position", [306 24 22 22]);

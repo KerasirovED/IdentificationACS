@@ -6,16 +6,16 @@ function RefreshInputSignals()
     IdentificationACS.Modules.InputSignals.List = [IdentificationACS.Modules.InputSignals.List; findfiles(IdentificationACS.Modules.InputSignals.Path, "*.sce")];
     IdentificationACS.Modules.InputSignals.List = [IdentificationACS.Modules.InputSignals.List; "Добавить..."];
     
-    set(IdentificationACS.MainWindow.Popmenus.SignalType, "String", IdentificationACS.Modules.InputSignals.List);
+    set(IdentificationACS.MainWindow.Popmenus.InputSignals, "String", IdentificationACS.Modules.InputSignals.List);
 
     if IdentificationACS.Modules.InputSignals.List == ["Добавить..."] then
-        IdentificationACS.MainWindow.Popmenus.SignalType.Value = 0;
+        IdentificationACS.MainWindow.Popmenus.InputSignals.Value = 0;
 
         IdentificationACS.MainWindow.Buttons.OpenInput.Enable = "off";
         IdentificationACS.MainWindow.Buttons.RenameInput.Enable = "off";
         IdentificationACS.MainWindow.Buttons.RemoveInput.Enable = "off";
     else
-        IdentificationACS.MainWindow.Popmenus.SignalType.Value = 1;
+        IdentificationACS.MainWindow.Popmenus.InputSignals.Value = 1;
 
         IdentificationACS.MainWindow.Buttons.OpenInput.Enable = "on";
         IdentificationACS.MainWindow.Buttons.RenameInput.Enable = "on";
@@ -33,13 +33,13 @@ function RefreshObjects()
     set(IdentificationACS.MainWindow.Popmenus.ObjectModel, "String", IdentificationACS.Modules.Objects.List);
     
     if IdentificationACS.Modules.Objects.List == ["Добавить..."] then
-        IdentificationACS.MainWindow.Popmenus.InputSignals.Value = 0;
+        IdentificationACS.MainWindow.Popmenus.ObjectModel.Value = 0;
 
         IdentificationACS.MainWindow.Buttons.OpenObject.Enable = "off";
         IdentificationACS.MainWindow.Buttons.RenameObject.Enable = "off";
         IdentificationACS.MainWindow.Buttons.RemoveObject.Enable = "off";
     else
-        IdentificationACS.MainWindow.Popmenus.InputSignals.Value = 1;
+        IdentificationACS.MainWindow.Popmenus.ObjectModel.Value = 1;
 
         IdentificationACS.MainWindow.Buttons.OpenObject.Enable = "on";
         IdentificationACS.MainWindow.Buttons.RenameObject.Enable = "on";
@@ -80,7 +80,7 @@ function RenameModule(path, name, refreshFunc)
     if newName == name then return; end
 
     // Уже существует
-    if find(path + newName == findfiles(path) <> [] then
+    if find(path + newName == findfiles(path)) <> [] then
         messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
         return;
     end
