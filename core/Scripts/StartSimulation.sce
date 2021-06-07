@@ -1,12 +1,17 @@
 IdentificationACS.MainWindow.Frames.PlotFrame.Visible = "on";
 
+// Удаление предыдущих результатов моделирвоания
 delete(IdentificationACS.MainWindow.Frames.PlotFrame.Children);
+
+// Указатель на оси для пользователя
 __graphics__ = newaxes(IdentificationACS.MainWindow.Frames.PlotFrame);
 
+// На время симулящии отключаем кнопку запуска моделирования и отключаем оси
 IdentificationACS.MainWindow.Frames.StartSimulation.Enable  = "off";
 IdentificationACS.MainWindow.Frames.NoDataFrame.Visible = "on";
 IdentificationACS.MainWindow.Frames.PlotFrame.Visible = "off";
 
+// Окно progressionbar
 __waitbarHandle__ = progressionbar("Выполнение моделирования...");
 
 __modulationStep__ = strtod(IdentificationACS.MainWindow.Texts.ModulationStep.String);
@@ -66,7 +71,7 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
             // Установка имени переменной, из которой будет взят входной сигнал
             if scs_m.objs(__i__).gui == "FROMWSB" then 
                 scs_m.objs(__i__).model.rpar.objs(1).graphics.exprs = ["__source__"; "0"; "1"; "0"];            
-                scs_m.objs(__i__).model.rpar.objs(1).model.ipar = [14; 24; 30; 29; -18; 23; 25; 30; 29; -28; 18; 16; 23; 10; 21; 1; 1; 0];  // Имя переменной кодирется в стронной кодировке: "0123456789 abcdef ABCDEF" = [0;1;2;3;4;5;6;7;8;9; 10;11;12;13;14;15; -10;-11;-12;-13;-14;-15] (пробелы для читаемости)
+                scs_m.objs(__i__).model.rpar.objs(1).model.ipar = [14; 24; 30; 29; -18; 23; 25; 30; 29; -28; 18; 16; 23; 10; 21; 1; 1; 0];  // Имя переменной кодируется в стронной кодировке: "0123456789 abcdef ABCDEF" = [0;1;2;3;4;5;6;7;8;9; 10;11;12;13;14;15; -10;-11;-12;-13;-14;-15] (пробелы для читаемости)
             end
             
             // Установка времени и шага моделирования
@@ -87,9 +92,6 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
     else 
         if (strrchr(__identification__, '.') == ".sce") then
             exec(IdentificationACS.MainWindow.SelectedModule.Path + __identification__); // Выполнение модуля
-
-            IdentificationACS.MainWindow.Frames.NoDataFrame.Visible = "off";
-            IdentificationACS.MainWindow.Frames.PlotFrame.Visible = "on";
         else
             importXcosDiagram(IdentificationACS.MainWindow.SelectedModule.Path + IdentificationACS.MainWindow.SelectedModule.Name); // Импорт scs_m
             scs_m.props.tf = __modulationTime__; // Установка времени моделирования
@@ -118,12 +120,12 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
 
             if IdentificationACS.MainWindow.Checkboxes.ShowSource.Value == 1 then
                 __countParametres__ = __countParametres__ + 1;
-                __parametresNames__ = [__parametresNames__ "__source__"];
+                __parametresNames__ = [__parametresNames__ "Входной сигнал"];
             end
 
             if IdentificationACS.MainWindow.Checkboxes.ShowObj.Value == 1 then
                 __countParametres__ = __countParametres__ + 1;
-                __parametresNames__ = [__parametresNames__ "__obj__"];
+                __parametresNames__ = [__parametresNames__ "Объект идентификации"];
             end
             
             for __i__ = 1 : size(scs_m.objs)
