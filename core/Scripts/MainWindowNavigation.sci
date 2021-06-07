@@ -81,7 +81,13 @@ function mwn_o(name)
     currentIndex = IdentificationACS.MainWindow.Navigation.CurrentIndex;
 
     if isfile(navList(currentIndex) + name) then
-        IdentificationACS.MainWindow.Texts.ModuleName.String = name;
+
+        if length(name) > 27 then
+            IdentificationACS.MainWindow.Texts.ModuleName.String = part(name, 1:24) + "...";
+        else
+            IdentificationACS.MainWindow.Texts.ModuleName.String = name;
+        end
+        
         IdentificationACS.MainWindow.SelectedModule.Name = name;
         IdentificationACS.MainWindow.SelectedModule.Path = ..
             IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
@@ -161,21 +167,25 @@ endfunction
 function mwn_addModule()
     global IdentificationACS;
 
+    // Путь к текущей директории
     path = IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
 
+    // Информация о импортируемом модуле
     [newFileName, newFilePath] = uigetfile(["*.sce", "SciNotes Execution Files (*.sce)"; "*.zcos", "XCos Files (*.zcos)"])
 
+    // Проверка на совпадение с существующими модулями
     if newFilePath <> "" then
         if find(newFileName == findfiles(path, "*.zcos")) <> [] then
             messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
-        elseif find(newFileName == findfiles(path, "*.sci")) <> [] then
+        elseif find(newFileName == findfiles(path, "*.sce")) <> [] then
             messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
         else        
             copyfile(newFilePath + "\" + newFileName, path + newFileName);
+    
+            // Обновление списка модулей
+            SetModulesList(path);
         end
     end
-    
-    SetModulesList(path);
 endfunction
 
 function mwn_renameModule()
@@ -186,12 +196,28 @@ function mwn_renameModule()
     // Отмена
     if newName == [] then return; end
 
+    // Нет изменений
+    if newName == IdentificationACS.MainWindow.SelectedModule.Name then return; end
+
+    // Уже существует
+    path = IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
+
+    if find(path + newName == findfiles(path) <> [] then
+        messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
+        return;
+    end
+
     // Ок       
     copyfile(IdentificationACS.MainWindow.SelectedModule.Path + IdentificationACS.MainWindow.SelectedModule.Name, ..
         IdentificationACS.MainWindow.SelectedModule.Path + newName);
     deletefile(IdentificationACS.MainWindow.SelectedModule.Path + IdentificationACS.MainWindow.SelectedModule.Name);
 
-    IdentificationACS.MainWindow.Texts.ModuleName.String = newName;
+    if length(newName) > 27 then
+        IdentificationACS.MainWindow.Texts.ModuleName.String = part(newName, 1:24) + "...";
+    else
+        IdentificationACS.MainWindow.Texts.ModuleName.String = newName;
+    end
+
     IdentificationACS.MainWindow.SelectedModule.Name = newName;
     
     SetModulesList(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex));

@@ -82,6 +82,7 @@ function RenameModule(path, name, refreshFunc)
     // Уже существует
     if find(path + newName == findfiles(path) <> [] then
         messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
+        return;
     end
 
     // Ок

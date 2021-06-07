@@ -20,11 +20,8 @@ m = uimenu(IdentificationACS.MainWindow.Window, "label", "Файл");
 uimenu(m, "label", "Закрыть", "callback", "CloseProgramm", "icon", "close-tab");
 m = uimenu(IdentificationACS.MainWindow.Window, "label", "График");
 uimenu(m, "label", "Сохранить как изображение", "callback", "SavePlotIntoImage", "icon", "media-floppy");
-m = uimenu(IdentificationACS.MainWindow.Window, "label", "Открыть диаграмму");
-uimenu(m, "label", "Система идентификации с фильтром первого порядка", "callback", "OpenFirstOrderFilterDiagram", "icon", "utilities-system-monitor");
-uimenu(m, "label", "Система идентификации с фильтром второго порядка", "callback", "OpenSecindOrderFilterDiagram", "icon", "utilities-system-monitor");
 m = uimenu(IdentificationACS.MainWindow.Window, "label", "Справка");
-uimenu(m, "label", "Справка", "callback", "exec(IdentificationACS.Path + ""help\Help.sce"")", "icon", "help-browser");
+uimenu(m, "label", "Справка", "callback", "exec(IdentificationACS.Path + ""Interfaces\Help.sce"")", "icon", "help-browser");
 uimenu(m, "label", "О программе", "callback", "AboutUs", "icon", "dialog-information");
 
 clear m;
@@ -206,19 +203,19 @@ IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons = uicontrol(Id
     
 IdentificationACS.MainWindow.Buttons.Backward = uicontrol(IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "callback", "mwn_b", ..
-    "enable", "off", ..
+    "enable", "on", ..
     "icon", IdentificationACS.Path + "images\backward.png", ..
     "position", [5 25 30 30]);
 
 IdentificationACS.MainWindow.Buttons.Forward = uicontrol(IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "callback", "mwn_f", ..
-    "enable", "off", ..
+    "enable", "on", ..
     "icon", IdentificationACS.Path + "images\forward.png", ..
     "position", [38 25 30 30]);
     
 IdentificationACS.MainWindow.Buttons.Home = uicontrol(IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "callback", "mwn_h", ..
-    "enable", "off", ..
+    "enable", "on", ..
     "icon", IdentificationACS.Path + "images\home-folder.png", ..
     "position", [71 25 30 30]);
 
@@ -226,7 +223,7 @@ IdentificationACS.MainWindow.Buttons.RemoveFolder = uicontrol(IdentificationACS.
     "icon", IdentificationACS.Path + "images\remove-folder.png", ..
     "callback", "mwn_rmvFldr", ..
     "TooltipString", "Удалить текущую папку", ..
-    "enable", "off", ..
+    "enable", "on", ..
     "position", [232 25 30 30]);
 
 IdentificationACS.MainWindow.Buttons.AddFolder = uicontrol(IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons, ..
@@ -298,7 +295,7 @@ IdentificationACS.MainWindow.Frames.StartSimulation = uicontrol(IdentificationAC
 
 IdentificationACS.MainWindow.Buttons.Start = uicontrol(IdentificationACS.MainWindow.Frames.StartSimulation, ..
     "style", "pushbutton", ..
-    "string", "Пуск", ..
+    "string", "Запуск моделирования", ..
     "callback", "exec(IdentificationACS.Path + ""Scripts\StartSimulation.sce"")", ..
     "constraints", createConstraints("gridbag", [1 1 1 1], [1 1], "both"));
 

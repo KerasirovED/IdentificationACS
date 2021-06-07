@@ -34,7 +34,7 @@ function HowToOpenXCos(frame)
     
     uicontrol(main, ..
         "style", "image", ..
-        "string", programmPath + "help\Programm\How to save open XCos\Images\1.png", ..
+        "string", programmPath + "Images\How to save open XCos\1.png", ..
         "margin", [0 10 10 10], ..
         "backgroundcolor", [1 0 0], ..
         "constraints", createConstraints("gridbag", [1 5 1 1], [1 0], "none", "center", [0 0], [500 300]))
@@ -47,7 +47,7 @@ function HowToOpenXCos(frame)
     
     uicontrol(main, ..
         "style", "image", ..
-        "string", programmPath + "help\Programm\How to save open XCos\Images\2.png", ..
+        "string", programmPath + "Images\How to save open XCos\2.png", ..
         "margin", [0 10 10 10], ..
         "backgroundcolor", [1 0 0], ..
         "constraints", createConstraints("gridbag", [1 7 1 1], [1 0], "none", "center", [0 0], [500 255]))

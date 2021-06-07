@@ -1,6 +1,7 @@
-global Programm
+global IdentificationACS;
 
-main_figure = figure( ...
+IdentificationACS.Help.MainWindow = [];
+IdentificationACS.Help.MainWindow = = figure( ...
     "dockable"        , "off",...
     "infobar_visible" , "off",...
     "toolbar"         , "none",...
@@ -10,70 +11,52 @@ main_figure = figure( ...
     "menubar" ,         "none",...
     "resize", "off", ..
     "figure_name", "Справка", ..
-    "figure_size", [918, 514])
+    "figure_size", [918, 514]);
 
-left_frame = uicontrol(main_figure, ...
+IdentificationACS.Help.Frames.LeftFrame = [];
+IdentificationACS.Help.Frames.LeftFrame = uicontrol(IdentificationACS.Help.MainWindow, ...
     "layout", "gridbag", ...
     "style", "frame", ...
     "margin", [5 5 5 0], ...
-    "position", [5 5 275 470])
+    "position", [5 5 275 470]);
 
 // Разделение рабочей области   
-Programm.Help.help_frame = []    
-Programm.Help.help_frame = uicontrol(main_figure, ...
+IdentificationACS.Help.HelpFrame = []    
+IdentificationACS.Help.Frames.HelpFrame = uicontrol(IdentificationACS.Help.MainWindow, ...
     "layout", "gridbag", ...
     "style", "frame", ...
     "margin", [5 5 5 5], ...
-    "position", [286 5 620 470])
+    "position", [286 5 620 470]);
   
-Programm.Help.root = [
+IdentificationACS.Help.root = [
     'folder', "Справка по программе", '#FFFFFF', "#000000";
     'folder', "Справка по теории", '#FFFFFF', "#000000";
-]
+];
 
-Programm.Help.programm = [
+IdentificationACS.Help.IdentificationACS = [
     'dynamic-blue-up', "Справка по программе", '#FFFFFF', "#000000";
     'text-x-generic', "Как запустить моделирование?", '#FFFFFF', "#000000";
     'text-x-generic', "Как сохранить результат моделирования?", '#FFFFFF', "#000000";
     'text-x-generic', "Как посмотреть блок-схему фильтра?", '#FFFFFF', "#000000";
-]
+];
 
-Programm.Help.theory = [
+IdentificationACS.Help.theory = [
     'dynamic-blue-up', "Справка по теории", '#FFFFFF', "#000000";
     'text-x-generic', "Метод вспомогательного оператора", '#FFFFFF', "#000000";
     'text-x-generic', "...", '#FFFFFF', "#000000";
     'text-x-generic', "...", '#FFFFFF', "#000000";
-]
-
-navButtons = uicontrol(left_frame, ..
-    "style", "frame", ..
-    "constraints", createConstraints("gridbag", [1 1 1 1], [1 0], "both", "center", [0 0], [0 40]))
+];
     
-uicontrol(navButtons, ..
-    "icon", "go-previous", ..
-    "callback", "HomePage", ..
-    "position", [5 5 30 30])
-
-Programm.Help.next = uicontrol(navButtons, ..
-    "icon", "go-next", ..
-    "callback", "NextPage", ..
-    "position", [40 5 30 30])
-    
-uicontrol(navButtons, ..
-    "icon", "user-home", ..
-    "callback", "HomePage", ..
-    "position", [75 5 30 30])
-
-Programm.Help.lb = []
-Programm.Help.lb = uicontrol(left_frame, ..
+IdentificationACS.Help.lb = []
+IdentificationACS.Help.lb = uicontrol(IdentificationACS.Help.Frames.LeftFrame, ..
     "style", "listbox", ..
-    "string", Programm.Help.root, ..
-    "callback", "changeNavigation", ..
-    "margins", [0 5 5 5], ..
-    "constraints", createConstraints("gridbag", [1 2 1 1], [1 1], "both"), ..
-    "user_data", "root")
+    "string", IdentificationACS.Help.root, ..
+    "callback", "ChangeNavigation", ..
+    "margins", [5 5 5 5], ..
+    "constraints", createConstraints("gridbag", [1 1 1 1], [1 1], "both"), ..
+    "user_data", "root");
 
-main_figure.visible = "on"
+IdentificationACS.Help.MainWindow =.visible = "on";
     
 //////////////////////////////////////////////////
 /////////////////// Right Frame //////////////////

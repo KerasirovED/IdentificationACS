@@ -1,25 +1,7 @@
 
 global Programm
 
-function HomePage()    
-    set(Programm.Help.next, "user_data", Programm.Help.lb.user_data)
-    set(Programm.Help.lb, "string", Programm.Help.root)
-    set(Programm.Help.lb, "user_data", "root")
-endfunction
-  
-function NextPage()
-    if Programm.Help.next.user_data == "programm" then
-        set(Programm.Help.lb, "string", Programm.Help.programm)
-        set(Programm.Help.lb, "user_data", "programm")
-    end
-
-    if Programm.Help.next.user_data == "theory" then
-        set(Programm.Help.lb, "string", Programm.Help.theory)
-        set(Programm.Help.lb, "user_data", "theory")
-    end
-endfunction
-
-function changeNavigation()
+function ChangeNavigation()
     if Programm.Help.lb.user_data == "root" then
         if Programm.Help.lb.Value == 1 then
             set(Programm.Help.lb, "string", Programm.Help.programm)

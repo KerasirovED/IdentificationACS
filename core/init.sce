@@ -80,10 +80,10 @@ IdentificationACS.MainWindow.SelectedModule.Path = "";
 
         // Импорт *.sci файлов
         getd(IdentificationACS.Path + "Scripts\");
-        getd(IdentificationACS.Path + "help\");
-        getd(IdentificationACS.Path + "help\Programm\How to save open XCos\");
-        getd(IdentificationACS.Path + "help\Programm\How to save results\");
-        getd(IdentificationACS.Path + "help\Programm\How to use programm\");
+        // getd(IdentificationACS.Path + "help\");
+        // getd(IdentificationACS.Path + "help\Programm\How to save open XCos\");
+        // getd(IdentificationACS.Path + "help\Programm\How to save results\");
+        // getd(IdentificationACS.Path + "help\Programm\How to use programm\");
 
         // Отрисовка интерфейса
         exec(IdentificationACS.Path + "interfaces\mainWindow.sce");
