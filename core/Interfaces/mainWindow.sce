@@ -176,7 +176,7 @@ IdentificationACS.MainWindow.Texts.ModuleName = uicontrol(IdentificationACS.Main
     "position", [95 0 165 20]);
 
 IdentificationACS.MainWindow.Buttons.ObjectModel = uicontrol(IdentificationACS.MainWindow.Frames.SelectedModule, ..
-    "callback", "OpenModule(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex), IdentificationACS.MainWindow.Texts.ModuleName.String)", ..
+    "callback", "OpenModule(IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex), IdentificationACS.MainWindow.SelectedModule.Name)", ..
     "enable", "off", ..
     "icon", IdentificationACS.Path + "images\open-file.png", ..
     "TooltipString", "Открыть", ..

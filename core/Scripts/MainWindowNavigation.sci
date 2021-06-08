@@ -23,7 +23,7 @@ function SetModulesList(path)
     end
 
     IdentificationACS.MainWindow.Texts.CurrentPath.String = ..
-        IdentificationACS.MainWindow.Navigation.RelativePaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
+    IdentificationACS.MainWindow.Navigation.RelativePaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
 endfunction 
 
 function mwn_b()
@@ -90,7 +90,7 @@ function mwn_o(name)
         
         IdentificationACS.MainWindow.SelectedModule.Name = name;
         IdentificationACS.MainWindow.SelectedModule.Path = ..
-            IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
+        IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
 
         IdentificationACS.MainWindow.Buttons.ObjectModel.Enable = "on";
         IdentificationACS.MainWindow.Buttons.RemoveModule.Enable = "on";
