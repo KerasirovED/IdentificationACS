@@ -202,7 +202,7 @@ function mwn_renameModule()
     // Уже существует
     path = IdentificationACS.MainWindow.Navigation.FullPaths(IdentificationACS.MainWindow.Navigation.CurrentIndex);
 
-    if find(path + newName == findfiles(path) <> [] then
+    if find(path + newName == findfiles(path)) <> [] then
         messagebox("Модуль с таким именем уже обнаружен!", "Error", "error", ["Ок"], "modal");
         return;
     end
