@@ -120,12 +120,12 @@ __time__ = (0 : __modulationStep__ : __modulationTime__ - __modulationStep__)'; 
 
             if IdentificationACS.MainWindow.Checkboxes.ShowSource.Value == 1 then
                 __countParametres__ = __countParametres__ + 1;
-                __parametresNames__ = [__parametresNames__ "Входной сигнал"];
+                __parametresNames__ = [__parametresNames__ "__source__"];
             end
 
             if IdentificationACS.MainWindow.Checkboxes.ShowObj.Value == 1 then
                 __countParametres__ = __countParametres__ + 1;
-                __parametresNames__ = [__parametresNames__ "Объект идентификации"];
+                __parametresNames__ = [__parametresNames__ "__obj__"];
             end
             
             for __i__ = 1 : size(scs_m.objs)

@@ -202,19 +202,19 @@ IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons = uicontrol(Id
     
 IdentificationACS.MainWindow.Buttons.Backward = uicontrol(IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "callback", "mwn_b", ..
-    "enable", "on", ..
+    "enable", "off", ..
     "icon", IdentificationACS.Path + "images\backward.png", ..
     "position", [5 25 30 30]);
 
 IdentificationACS.MainWindow.Buttons.Forward = uicontrol(IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "callback", "mwn_f", ..
-    "enable", "on", ..
+    "enable", "off", ..
     "icon", IdentificationACS.Path + "images\forward.png", ..
     "position", [38 25 30 30]);
     
 IdentificationACS.MainWindow.Buttons.Home = uicontrol(IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons, ..
     "callback", "mwn_h", ..
-    "enable", "on", ..
+    "enable", "off", ..
     "icon", IdentificationACS.Path + "images\home-folder.png", ..
     "position", [71 25 30 30]);
 
@@ -222,7 +222,7 @@ IdentificationACS.MainWindow.Buttons.RemoveFolder = uicontrol(IdentificationACS.
     "icon", IdentificationACS.Path + "images\remove-folder.png", ..
     "callback", "mwn_rmvFldr", ..
     "TooltipString", "Удалить текущую папку", ..
-    "enable", "on", ..
+    "enable", "off", ..
     "position", [232 25 30 30]);
 
 IdentificationACS.MainWindow.Buttons.AddFolder = uicontrol(IdentificationACS.MainWindow.Frames.SelectModuleNavigationButtons, ..
